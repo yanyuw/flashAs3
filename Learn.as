@@ -35,7 +35,6 @@
 			hoverGlow(explainTab, btnGlowObj)
 			hoverGlow(talkTab, btnGlowObj)
 			hoverGlow(appreTab, btnGlowObj)
-			tabPlay(0);
 
 			learnTab.addEventListener(MouseEvent.CLICK, function(e:Event){
 				gotoAndStop(1);//!
@@ -117,7 +116,7 @@
 			
 		}
 
-		private function tabPlay(tab: int):void{
+		public function tabPlay(tab: int):void{
 			var tabList = [learnTab, explainTab, talkTab, appreTab];
 			for(var i = 0; i < tabList.length; i++){
 				if(tab == i){

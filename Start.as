@@ -49,19 +49,6 @@
             })
         }
 
-        //对不同的帧做出不同处理
-        // private function EFHandler(e:Event):void {
-        //     if (currentFrame == 2) { //模式选择界面
-        //         //模式按钮
-        //         initModeBtn();
-        //     } else if (currentFrame > 2) {
-        //         trace("当前帧", currentFrame);
-        //         removeEventListener(Event.ENTER_FRAME, EFHandler);
-        //         textArea.buttonMode = true;
-        //         textArea.addEventListener(MouseEvent.CLICK, nextText);
-        //     }
-        // }
-
         private function initTextArea():void {
             trace("当前帧", currentFrame);
             textArea.buttonMode = true;

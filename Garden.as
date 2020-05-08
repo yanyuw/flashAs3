@@ -70,6 +70,7 @@
 					closeTV.visible = false;
 					removeGlow(tv)
 					nextElement(1)
+					basket.gotoAndPlay(1)
 				})
 			}
 			tv.addEventListener(MouseEvent.CLICK, tvPlay)
@@ -77,7 +78,6 @@
 
 		//初始化下一个元素
 		private function nextElement(poemID:int){
-			basket.gotoAndPlay(poem == 1 ? 1 : (poemID-1)*24)
 			initPoemBtn(this["poem"+period+'_'+(poemID)], poemID)
 		}
 
@@ -89,6 +89,13 @@
 				poem = poemID;
 				intoPoem();
 			})
+			button.addEventListener(MouseEvent.MOUSE_MOVE, function(e: Event) {
+				trace("floText"+poemID)
+				this["floText"+poemID].visible = true;
+            })
+			button.addEventListener(MouseEvent.MOUSE_OUT, function() {
+                this["floText"+poemID].visible = false;
+            })
 		}
 
 		private function intoPoem():void{
@@ -124,12 +131,12 @@
 			gotoAndStop(currentFrame+1)
 			learnMC.gotoAndStop(frame)
 			learnMC.setVisited(tab)
+			learnMC.tabPlay(tab)
 
 			//初始化花朵
 			flower.gotoAndStop( (poemFlower[period][poem-1] - 1) * 5 + 1)
 			learnMC.addEventListener(MyEvent.FLOWER_UPDATE, function(e: MyEvent){
 				updateFlow();
-				trace('?')
 			})
 			updateFlow();
 
@@ -170,9 +177,11 @@
 		}
 		
 		public function updateInsideGarden(next: Boolean = false){
+			
+			basket.gotoAndStop(poem*24)
+			trace("basket curr", basket.currentFrame);
 			if(next){
 				poem += 1;
-				trace(flower)
 				flower.visible = true;
 				flower.getFlower.gotoAndStop(poemFlower[period][poem-1])
 				flower.gotoAndPlay(1);
@@ -180,32 +189,15 @@
 			}else{
 				
 			}
-			tv.tv.gotoAndStop(period);
 			nextElement(poem);
+			tv.tv.gotoAndStop(period);
+			var nextTimerID = setTimeout(function(){
+				basket.play()
+				if(nextTimerID > 0){
+					clearTimeout(nextTimerID);
+				}
+			}, 1600);
 		}
-		
-	// 	private function gardenMcTransition():void {
-	//         var myTransitionManager:TransitionManager = new TransitionManager(this);
-	//         myTransitionManager.startTransition ({type:this.transitionOut, direction:Transition.OUT, duration:1, easing:Regular.easeOut, shape:Iris.CIRCLE});
-	// 	}
-
-	// 	private function moveBasket() {
-	// 		basket.addEventListener(Event.ENTER_FRAME, onMove)
-	// 	}
-		
-	// 	private function onMove(e: Event){
-	// 		e.target.x += speed
-	// 		if(e.target.x >= (150+poem * 200)){
-	// 			basket.removeEventListener(Event.ENTER_FRAME ,onMove);//移除enterFrame事件
-	// 			var intoTimerid = setTimeout(function(){   
-	// 				gotoAndStop(period*4+poem);
-	// 				initBtn();
-	// 				if(intoTimerid > 0){
-	// 					clearTimeout(intoTimerid);
-	// 				}
-	// 			}, 500);
-	// 		}
-	// 	}
 		
 	}
 	
