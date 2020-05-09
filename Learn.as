@@ -38,6 +38,8 @@
 
 			learnTab.addEventListener(MouseEvent.CLICK, function(e:Event){
 				gotoAndStop(1);//!
+				initLearnBtn();
+				initLine();
 				tabPlay(0);
 				firstTab(0);
 				removeTextA()
@@ -61,6 +63,44 @@
 				firstTab(3);
 				removeTextA()
 			})
+			initLearnBtn();
+		}
+
+		private function initLine():void{
+			line1.buttonMode = true;
+			line2.buttonMode = true;
+			line3.buttonMode = true;
+			line4.buttonMode = true;
+			line1.addEventListener(MouseEvent.CLICK, function(e:Event){
+				gotoAndStop(5);//!
+				initArrow();
+			})
+			line2.addEventListener(MouseEvent.CLICK, function(e:Event){
+				gotoAndStop(6);//!
+				initArrow();
+			})
+			line3.addEventListener(MouseEvent.CLICK, function(e:Event){
+				gotoAndStop(7);//!
+				initArrow();
+			})
+			line4.addEventListener(MouseEvent.CLICK, function(e:Event){
+				gotoAndStop(8);//!
+				initArrow();
+			})
+
+		}
+
+		private function initArrow():void{
+			leftArrow.addEventListener(MouseEvent.CLICK, function(e:Event){
+				gotoAndStop(currentFrame - 1);//!
+			})
+			rightArrow.addEventListener(MouseEvent.CLICK, function(e:Event){
+				gotoAndStop(currentFrame + 1);//!
+			})
+
+		}
+
+		private function initLearnBtn():void{
 			//对按钮初始化
 			btnStatus=[false, false, false, false]
 			
@@ -81,6 +121,7 @@
 			appreBtn..addEventListener(MouseEvent.CLICK, function(e:Event){
 				learnBtn(3)
 			})
+			
 		}
 
 		private function firstTab(index){
@@ -88,7 +129,7 @@
 				visited[index] = true;
 				// trace(visited[index], index, visited)
 				progress++;
-				dispatchEvent(new MyEvent(MyEvent.FLOWER_UPDATE));
+				dispatchEvent(new MyEvent(MyEvent.UPDATE_FLOWER));
 			}
 		}
 
@@ -133,6 +174,7 @@
 				removeChild(textA)	
 			}
 		}
+
 
 		private function newTextArea():void{
 			var cssText:String="p {font-size:22px; font-family:'Microsoft YaHei'; }";

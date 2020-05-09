@@ -9,7 +9,10 @@ package  {
 		public static const INTO_PERIOD:String = "intoPeriod";
 
 		//更新花朵
-		public static const FLOWER_UPDATE:String = "flowerUpdate";
+		public static const UPDATE_FLOWER:String = "updateFlower";
+
+		// //更新对话
+		// public static const UPDATE_TALK:String = "updateTalk"; 
 		
         //构造函数
 		public function MyEvent(type:String) {

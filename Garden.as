@@ -90,12 +90,15 @@
 				intoPoem();
 			})
 			button.addEventListener(MouseEvent.MOUSE_MOVE, function(e: Event) {
-				trace("floText"+poemID)
-				this["floText"+poemID].visible = true;
+				floText(poemID, true)
             })
 			button.addEventListener(MouseEvent.MOUSE_OUT, function() {
-                this["floText"+poemID].visible = false;
+                floText(poemID, false)
             })
+		}
+
+		private function floText(poemID: int, visible: Boolean){
+			this["floText"+poemID].visible = visible;
 		}
 
 		private function intoPoem():void{
@@ -135,7 +138,7 @@
 
 			//初始化花朵
 			flower.gotoAndStop( (poemFlower[period][poem-1] - 1) * 5 + 1)
-			learnMC.addEventListener(MyEvent.FLOWER_UPDATE, function(e: MyEvent){
+			learnMC.addEventListener(MyEvent.UPDATE_FLOWER, function(e: MyEvent){
 				updateFlow();
 			})
 			updateFlow();
