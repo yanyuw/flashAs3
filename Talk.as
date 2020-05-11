@@ -14,14 +14,13 @@
 
 		public function Talk() {
 			// constructor code
+			super()
 			init()
 			
 			aSp.source = talkContent; 
 			aSp.setSize(580, 230); 
 			aSp.move(20, 60); 
-			trace(aSp)
-
-			aSp.scrollDrag = true;
+			// aSp.scrollDrag = true;
 
 			addChild(aSp); 
 		}

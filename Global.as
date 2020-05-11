@@ -7,18 +7,20 @@ package  {
     import flash.filters.GlowFilter; 
     import flash.display.Stage; 
     // import flash.display.StageAlign; 
-    import flash.display.StageScaleMode; 
+    import flash.display.StageScaleMode;
+	import flash.text.TextField; 
+    import flash.ui.Mouse;
 
 	//存储公用变量及函数
 	public class Global extends MovieClip {
         //通用发光对象
         const commonGlowObj = new GlowFilter(0xffffff,0.75,20,20)
         //阶段+诗对应花 
-        //1: 梅花 2: 桂花 3:海棠 4: 荷花 5: 菊花
+        //1: 桂花 2: 梅花 3:海棠 4: 荷花 5: 菊花
         const poemFlower = {
             1: [1, 2, 3],
-            2: [1, 5, 4],
-            3: [1, 5, 2]
+            2: [2, 5, 4],
+            3: [2, 5, 1]
         }
         
 		// 哪一阶段哪一首诗
@@ -64,6 +66,18 @@ package  {
             }
             button.filters=[];
 		}
+
+
+        public function tfHover(tf: TextField):void{
+            tf.addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
+            tf.addEventListener(MouseEvent.MOUSE_OUT, onMouseOut); 
+            function onMouseOver(e:MouseEvent) { 
+                Mouse.cursor="button";       //当鼠标移到动态文本上时出现手形
+            }
+            function onMouseOut(e:MouseEvent) {        
+                Mouse.cursor="arrow";        //当鼠标离开动态文本时取消手形,恢复为箭头
+            }
+        }
 	}
 	
 }

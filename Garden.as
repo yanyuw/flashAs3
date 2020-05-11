@@ -117,16 +117,16 @@
 			hoverGlow(talkBtn)
 			hoverGlow(appreBtn)
 			learnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
-				gotoLearn(1, 0)//!
+				gotoLearn("原文"+period+"_"+poem, 0)
 			})
 			explainBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
-				gotoLearn(9, 1)//!
+				gotoLearn("解诗", 1)
 			})
 			talkBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
-				gotoLearn(10, 2)//!
+				gotoLearn("说诗", 2)
 			})
 			appreBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
-				gotoLearn(11, 3)//!
+				gotoLearn("赏诗", 3)
 			})
 		}
 
@@ -138,6 +138,7 @@
 
 			//初始化花朵
 			flower.gotoAndStop( (poemFlower[period][poem-1] - 1) * 5 + 1)
+			trace('花朵',(poemFlower[period][poem-1] - 1) * 5 + 1 )
 			learnMC.addEventListener(MyEvent.UPDATE_FLOWER, function(e: MyEvent){
 				updateFlow();
 			})
@@ -180,14 +181,14 @@
 		}
 		
 		public function updateInsideGarden(next: Boolean = false){
-			
 			basket.gotoAndStop(poem*24)
 			trace("basket curr", basket.currentFrame);
 			if(next){
-				poem += 1;
 				flower.visible = true;
 				flower.getFlower.gotoAndStop(poemFlower[period][poem-1])
 				flower.gotoAndPlay(1);
+				poem += 1;
+				trace(poem)
 				completeLearn = false;
 			}else{
 				

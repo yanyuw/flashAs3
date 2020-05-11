@@ -12,6 +12,7 @@
 		
 		public function TalkContent() {
 			// constructor code
+			super()
 			init();
 		}
 
@@ -19,11 +20,6 @@
 			left.visible = false;
 			right.visible = false;
 			initTextField();
-			initContainer();
-		}
-
-		private function initContainer():void{
-			var mySb:UIScrollBar = new UIScrollBar(); 
 		}
 
 		private function initTextField():void{
