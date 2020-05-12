@@ -5,12 +5,18 @@
     import flash.events.Event;
 	import fl.containers.ScrollPane; 
 	import fl.controls.ScrollPolicy; 
+	import flash.text.TextField; 
 
 	public class Talk extends Global {
 		private var inputStatus = false;
 		private var questionText = '';
-		// private var talkContent:TalkContent = new TalkContent(); 
 		public var aSp = new ScrollPane();
+
+        //必选问题
+        private const mustQ = [1, 2, 1, 1, 1, 2, 1, 1, 1];
+		//多少问题
+		private const countQ = [1, 3, 1, 1, 1, 2, 1, 2, 3];
+
 
 		public function Talk() {
 			// constructor code
@@ -51,18 +57,91 @@
 		}
 
 		private function initQuestion():void{
-			input.question1.addEventListener(MouseEvent.CLICK, function(e:Event){
-				questionText = input.question1.text;
-				getAnswer(1)
-			})
-			// if(input.contains(input.question2)){
-
+			var id = poem+(period-1)*3-1;
+			var count = countQ[id];
+			var must = mustQ[id];
+			var i = 1;
+			// for(var index:int = 1; index <= count; index++){
+				
+			// 	trace("question"+index,input["question"+index])
+			// 	if(must == index){
+			// 		var el: TextField = input["question"+index]
+			// 		trace(el.name, el.text)
+			// 		el.addEventListener(MouseEvent.CLICK, function(e:Event){
+			// 			questionText = el.text;
+			// 			getAnswer(must);
+			// 			alreadyAsk[id] = true;
+			// 			// enableOther(count, index);
+			// 		})
+			// 	}else{
+			// 		var el: TextField = input["question"+index]
+			// 		if(alreadyAsk[id] == true){
+			// 			i = index;
+			// 			trace(el.name, el.text)
+			// 			el.textColor = 0x000000;   	
+			// 			el.addEventListener(MouseEvent.CLICK, function(e:Event){
+			// 				questionText = el.text;
+			// 				getAnswer(i);
+			// 			})
+			// 		}else{
+			// 			el.textColor = 0xCCCCCC; 
+			// 		}
+			// 	}
 			// }
+
+
+			if(alreadyAsk[id] == true){
+				enableAnswer(input.question1, 1);
+				enableAnswer(input.question2, 2);
+				enableAnswer(input.question3, 3);
+			}else{
+				disableAnswer(count);
+				enableAnswer(input["question" + must], must, true, id)
+			}
 		}
+
+		private function enableAnswer(question, questionID, active = false, id = 0){
+			trace("questionID",questionID, id)
+			question.textColor = 0x000000;   	
+			question.addEventListener(MouseEvent.CLICK, function(e:Event){
+				questionText = question.text;
+				getAnswer(questionID);
+				if(active == true){
+					alreadyAsk[id] = true;
+				}
+			})
+		}
+
+		private function disableAnswer(count):void{
+			input.question1.textColor = 0xCCCCCC;
+			if(count > 1){
+				input.question2.textColor = 0xCCCCCC;
+				if(count > 2){
+					input.question3.textColor = 0xCCCCCC;
+				}
+			}
+		}
+		
+
+		// private function enableOther(count, must){
+		// 	var i = 1;
+		// 	for(var index:int = 1; index <= count; index++){
+		// 		if(must != index){
+		// 			i = index;
+		// 			var el: TextField = input["question"+index]
+		// 			trace(el.name, el.text)
+		// 			el.textColor = 0x000000;   	
+		// 			el.addEventListener(MouseEvent.CLICK, function(e:Event){
+		// 				questionText = el.text;
+		// 				getAnswer(i);
+		// 			})
+		// 		}
+		// 	}
+		// }
 
 		private function getAnswer(questionID):void{
 			closeInput();
-
+			trace("questionID", questionID, questionText)
 			talkContent.setContent(questionText, questionID, aSp);
 		}
 	}

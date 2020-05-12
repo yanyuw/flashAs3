@@ -22,10 +22,14 @@ package  {
             2: [2, 5, 4],
             3: [2, 5, 1]
         }
-        
+
+
 		// 哪一阶段哪一首诗
-		public var period:int = 1;
-		public var poem:int = 1;
+		public static var period:int = 1;
+		public static var poem:int = 1;
+
+        // 已经回答
+        public static var alreadyAsk = [false, false, false, false, false, false, false, false, false];
 
 		public function Global() {
 			// constructor code

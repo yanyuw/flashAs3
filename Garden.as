@@ -78,10 +78,15 @@
 
 		//初始化下一个元素
 		private function nextElement(poemID:int){
-			initPoemBtn(this["poem"+period+'_'+(poemID)], poemID)
+			if(poemID < 4){
+				initPoemBtn(this["poem"+period+'_'+(poemID)], poemID)
+			}else{
+				//进入测试
+				initTextBtn()
+			}
 		}
 
-		//初始化下一个元素
+		//初始化诗词按钮
 		private function initPoemBtn(button, poemID:int):void{
 			addGlow(button)
 			button.addEventListener(MouseEvent.CLICK, function(e: Event){
@@ -97,13 +102,19 @@
             })
 		}
 
+		//初始化测试按钮
+		private function initTextBtn():void{
+			addGlow(testBtn);
+			testBtn.addEventListener()
+		}
+
 		private function floText(poemID: int, visible: Boolean){
 			this["floText"+poemID].visible = visible;
 		}
 
 		private function intoPoem():void{
 			var intoTimerid = setTimeout(function(){   
-				gotoAndStop(period*4+poem);
+				gotoAndStop(5); //四朵花界面
 				initBtn();
 				if(intoTimerid > 0){
 					clearTimeout(intoTimerid);
@@ -131,6 +142,8 @@
 		}
 
 		private function gotoLearn(frame, tab){
+			
+			trace('frame', frame)
 			gotoAndStop(currentFrame+1)
 			learnMC.gotoAndStop(frame)
 			learnMC.setVisited(tab)
@@ -138,7 +151,7 @@
 
 			//初始化花朵
 			flower.gotoAndStop( (poemFlower[period][poem-1] - 1) * 5 + 1)
-			trace('花朵',(poemFlower[period][poem-1] - 1) * 5 + 1 )
+			// trace('花朵',(poemFlower[period][poem-1] - 1) * 5 + 1 )
 			learnMC.addEventListener(MyEvent.UPDATE_FLOWER, function(e: MyEvent){
 				updateFlow();
 			})
@@ -190,17 +203,19 @@
 				poem += 1;
 				trace(poem)
 				completeLearn = false;
-			}else{
-				
+				var nextTimerID = setTimeout(function(){
+					basket.play()
+					if(nextTimerID > 0){
+						clearTimeout(nextTimerID);
+					}
+				}, 1600);
 			}
 			nextElement(poem);
 			tv.tv.gotoAndStop(period);
-			var nextTimerID = setTimeout(function(){
-				basket.play()
-				if(nextTimerID > 0){
-					clearTimeout(nextTimerID);
-				}
-			}, 1600);
+			if(next){
+
+			}
+
 		}
 		
 	}

@@ -31,7 +31,11 @@
 		public function setContent(questionText: String, questionID, aSp):void{
 			setText(right, questionText)
 			var answerTimerID = setTimeout(function(){
-				setText(left, answer[poem+(period-1)*3-1][questionID-1])
+				var answerText = answer[poem+(period-1)*3-1][questionID-1]
+				
+				trace(poem+(period-1)*3-1, questionID-1, answerText)
+				setText(left, answerText)
+				
 				aSp.update()
 				if(answerTimerID > 0){
 					clearTimeout(answerTimerID);
@@ -48,10 +52,11 @@
 		public function resize(mc):void{
 			textWidth = mc.textArea.width;
 			textHeight = mc.textArea.height;
-			trace('宽高',textWidth, textHeight);
+			// trace('宽高',textWidth, textHeight);
 			mc.base.height = textHeight+16;
 		}
-
+		
+		
 		private var answer = [
 			//《鹧鸪天》（卓尔不群）
 			[

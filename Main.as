@@ -24,13 +24,12 @@
 			hoverGlow(noteBtn);
 
 		}
+
 		private function gotoNextSence(e: MyEvent):void {
 			gotoAndStop(currentFrame+1)
 			// gardenMC
 			ruleBtn.addEventListener(MouseEvent.CLICK, ruleBtnOnClick)
 			gardenMcTransition();
-
-
 		}
 
 		private function gardenMcTransition():void {
