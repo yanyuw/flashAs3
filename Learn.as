@@ -72,7 +72,10 @@
 			tfHover(line1)
 			tfHover(line2)
 			tfHover(line3)
-			tfHover(line4)
+			if(period != 1 && poem != 3){
+				trace("initline4", period, poem)
+				tfHover(line4)
+			}
 			line1.addEventListener(MouseEvent.CLICK, function(e:Event){
 				gotoAndStop(currentFrame+4);
 				initArrow();
@@ -182,8 +185,14 @@
 		private function newTextArea():void{
 
 			appreSp.source = ap; 
-			appreSp.setSize(485, 350); 
-			appreSp.move(180, 20); 
+			
+			if((period == 1 && poem == 1) || (period == 3 && poem == 1)){
+				appreSp.setSize(595, 350); 
+				appreSp.move(55, 20); 
+			}else{
+				appreSp.setSize(485, 350); 
+				appreSp.move(180, 20); 
+			}
 			// appreSp.scrollDrag = true;
 
 			addChild(appreSp); 

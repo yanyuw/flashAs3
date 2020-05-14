@@ -61,35 +61,6 @@
 			var count = countQ[id];
 			var must = mustQ[id];
 			var i = 1;
-			// for(var index:int = 1; index <= count; index++){
-				
-			// 	trace("question"+index,input["question"+index])
-			// 	if(must == index){
-			// 		var el: TextField = input["question"+index]
-			// 		trace(el.name, el.text)
-			// 		el.addEventListener(MouseEvent.CLICK, function(e:Event){
-			// 			questionText = el.text;
-			// 			getAnswer(must);
-			// 			alreadyAsk[id] = true;
-			// 			// enableOther(count, index);
-			// 		})
-			// 	}else{
-			// 		var el: TextField = input["question"+index]
-			// 		if(alreadyAsk[id] == true){
-			// 			i = index;
-			// 			trace(el.name, el.text)
-			// 			el.textColor = 0x000000;   	
-			// 			el.addEventListener(MouseEvent.CLICK, function(e:Event){
-			// 				questionText = el.text;
-			// 				getAnswer(i);
-			// 			})
-			// 		}else{
-			// 			el.textColor = 0xCCCCCC; 
-			// 		}
-			// 	}
-			// }
-
-
 			if(alreadyAsk[id] == true){
 				enableAnswer(input.question1, 1);
 				enableAnswer(input.question2, 2);
@@ -121,23 +92,6 @@
 				}
 			}
 		}
-		
-
-		// private function enableOther(count, must){
-		// 	var i = 1;
-		// 	for(var index:int = 1; index <= count; index++){
-		// 		if(must != index){
-		// 			i = index;
-		// 			var el: TextField = input["question"+index]
-		// 			trace(el.name, el.text)
-		// 			el.textColor = 0x000000;   	
-		// 			el.addEventListener(MouseEvent.CLICK, function(e:Event){
-		// 				questionText = el.text;
-		// 				getAnswer(i);
-		// 			})
-		// 		}
-		// 	}
-		// }
 
 		private function getAnswer(questionID):void{
 			closeInput();

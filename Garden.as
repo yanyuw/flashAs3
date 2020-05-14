@@ -4,6 +4,8 @@
 	import flash.events.MouseEvent;
 	import flash.events.Event;
     import flash.utils.*; 
+	import flash.text.TextField; 
+	import flash.events.TimerEvent; 
 	
 	public class Garden extends Global {
 		public var transitionIn = Iris;
@@ -82,7 +84,7 @@
 				initPoemBtn(this["poem"+period+'_'+(poemID)], poemID)
 			}else{
 				//进入测试
-				initTextBtn()
+				initTestBtn()
 			}
 		}
 
@@ -103,9 +105,56 @@
 		}
 
 		//初始化测试按钮
-		private function initTextBtn():void{
+		private function initTestBtn():void{
 			addGlow(testBtn);
-			testBtn.addEventListener()
+			testBtn.addEventListener(MouseEvent.CLICK, function(e: Event) {
+				testPop.visible = true;
+				if(period == 1){
+					initTest1()
+				}else if (period == 2){
+					initTest2();
+				}else{
+					initTest3();
+				}
+				// this["initTest" + period]();
+            })
+
+			//文字hover
+			testBtn.addEventListener(MouseEvent.MOUSE_MOVE, function(e: Event) {
+				testText.visible = true;
+            })
+			testBtn.addEventListener(MouseEvent.MOUSE_OUT, function(e: Event) {
+                testText.visible = false
+            })
+		}
+
+		//文字雨
+		private function initTest1(){
+			var text = ["海棠","少女时期","对春光易逝的感叹","桂花", "少妇时期", "寡居时期", "对桂花由衷的赞美和崇敬", "对生活的热爱", "梅花"]
+			var txtRain = [];
+			var myTimer:Timer= new Timer(800, 9); 
+            myTimer.addEventListener(TimerEvent.TIMER, function(event:TimerEvent){
+				trace("?timer")
+				var txt = new TestRain();
+				txt.text = text[Math.floor(Math.random()*10)]
+				txt.textColor = 0x0000000;            //文字颜色
+				// txt.background = true;
+				// txt.backgroundColor = 0x00ff00;
+				txt.multiline = true;                //可输入多行
+				txt.wordWrap = true;                 //是否自动换行
+				text.fontSize = 20;
+				testPop.textDown.addChild(txt);
+				txtRain.push(txt);
+			}); 
+            myTimer.start();
+			
+		}
+
+		private function initTest2(){
+
+		}
+		private function initTest3(){
+
 		}
 
 		private function floText(poemID: int, visible: Boolean){
