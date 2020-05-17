@@ -57,6 +57,7 @@
 
 		private function ruleBtnOnClick(e: Event):void {
 			rulesPopUp.visible = !rulesPopUp.visible;
+			btnMask.visible = !btnMask.visible;
 		}
 	}
 	

@@ -5,7 +5,10 @@
 	import flash.events.Event;
     import flash.utils.*; 
 	import flash.text.TextField; 
-	import flash.events.TimerEvent; 
+	import flash.events.TimerEvent;
+	import flash.text.TextFormat;
+	// import flash.text.TextFieldType;
+
 	
 	public class Garden extends Global {
 		public var transitionIn = Iris;
@@ -43,6 +46,10 @@
 			gotoAndStop(currentFrame+periodID)
 			period=periodID
 			initTVBtn();
+
+			//debug跳过用：直接进入测试
+			initTestBtn()
+
 			trace("当前时期",periodID)
 		}
 
@@ -130,28 +137,111 @@
 
 		//文字雨
 		private function initTest1(){
-			var text = ["海棠","少女时期","对春光易逝的感叹","桂花", "少妇时期", "寡居时期", "对桂花由衷的赞美和崇敬", "对生活的热爱", "梅花"]
-			var txtRain = [];
-			var myTimer:Timer= new Timer(800, 9); 
+			var textArr = ["海棠", "少女时期", "叹春自怜", "梅花", "菊花", "桂花", "荷花", "少妇时期", "晚年时期", "幸福甜蜜", "卓尔不群", "浓郁情思", "爱恋羞涩", "相思之苦", "悲惨凄沧", "深忧国衰" ,"平静淡然"];
+			// var txtRain = [];
+			var myTimer:Timer= new Timer(800, 17); 
+			
+			//设置字体格式
+			var format:TextFormat = new TextFormat();
+			format.font = "Microsoft YaHei UI";
+            format.size = 20;
+
+			var count = 0;
+			shuffle(textArr);//洗牌
+			// trace(textArr)
+
             myTimer.addEventListener(TimerEvent.TIMER, function(event:TimerEvent){
-				trace("?timer")
 				var txt = new TestRain();
-				txt.text = text[Math.floor(Math.random()*10)]
+				txt.text = textArr[count++];
+
 				txt.textColor = 0x0000000;            //文字颜色
-				// txt.background = true;
-				// txt.backgroundColor = 0x00ff00;
 				txt.multiline = true;                //可输入多行
 				txt.wordWrap = true;                 //是否自动换行
-				text.fontSize = 20;
+				txt.selectable = false;
+
+				txt.setTextFormat(format);		 	 //设置格式
+
+				txt.addEventListener(MyEvent.TEST1_OK, function(e: MyEvent){
+					trace("timer end")
+					myTimer.stop();
+					completeTest1(true)
+				})
+
 				testPop.textDown.addChild(txt);
-				txtRain.push(txt);
+				
+				// txtRain.push(txt);
 			}); 
-            myTimer.start();
+
+			myTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function(event:TimerEvent){
+				trace("onFinish");
+				completeTest1(false)
+			}); //运行结束后调用
+
+        	myTimer.start();
+
+			//收藏按钮
+			initStarBtn(1)		
+		}
+
+		private function completeTest1(isRight: Boolean){
+			var completeTest1TimerID = setTimeout(function(){
+				
+				if(isRight){
+					initOKPop(1)
+				}else{
+					initOKPop(2)
+				}
+				
+				if(completeTest1TimerID > 0){
+					clearTimeout(completeTest1TimerID);
+				}
+			}, 1000);
+		}
+
+		private function initOKPop(frame):void{
+			okPop.gotoAndStop(frame);
+			okPop.visible = true;
+			okPop.okBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+				okPop.visible = false;
+				testPop.visible = false;
+				gotoAndStop(1)
+				updateOutsideGarden(true);
+			})
+		}
+
+		private function shuffle(array) {
+			var index = -1,
+				length = array.length,
+				lastIndex = length - 1;
+
+			while (++index < length) {
+				var rand = index + Math.floor( Math.random() * (lastIndex - index + 1)),
+					value = array[rand];
+				array[rand] = array[index];
+				array[index] = value;
+			}
+
+			return array;
+		}
+
+		private function initStarBtn(TestID: int):void{
+			if(starTest[TestID] == true){
+				testPop.star.gotoAndStop(2);
+			}else{
+				testPop.star.gotoAndStop(1);
+			}
+			testPop.star.addEventListener(MouseEvent.CLICK, function(e: Event){
+				
+				testPop.star.gotoAndStop( testPop.star.currentFrame == 1 ? 2 : 1 )
+				testPop.star[TestID] = ! testPop.star[TestID];
+			})
 			
 		}
 
 		private function initTest2(){
-
+			testPop.optionA.addEventListener(MouseEvent.CLICK, function(e: Event){
+				
+			})
 		}
 		private function initTest3(){
 
@@ -165,6 +255,7 @@
 			var intoTimerid = setTimeout(function(){   
 				gotoAndStop(5); //四朵花界面
 				initBtn();
+				learnBG.gotoAndStop(poem+(period-1)*3); //背景
 				if(intoTimerid > 0){
 					clearTimeout(intoTimerid);
 				}

@@ -12,7 +12,12 @@ package  {
 		public static const UPDATE_FLOWER:String = "updateFlower";
 
 		// //更新对话
-		// public static const UPDATE_TALK:String = "updateTalk"; 
+		// public static const UPDATE_TALK:String = "updateTalk";
+
+		// test1 完成结束
+		public static const TEST1_OK = "test1OK"
+		// test1 未完成结束
+		public static const TEST1_OVER = "test1Over"
 		
         //构造函数
 		public function MyEvent(type:String) {

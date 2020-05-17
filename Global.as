@@ -31,6 +31,9 @@ package  {
         // 已经回答
         public static var alreadyAsk = [false, false, false, false, false, false, false, false, false];
 
+        // 题目收藏情况
+        public static var starTest = [false, false, false];
+        
 		public function Global() {
 			// constructor code
             stage.scaleMode = StageScaleMode.EXACT_FIT 
