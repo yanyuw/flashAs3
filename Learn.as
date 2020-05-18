@@ -68,7 +68,7 @@
 			initLearnBtn();
 		}
 
-		private function initLine():void{
+		public function initLine():void{
 			tfHover(line1)
 			tfHover(line2)
 			tfHover(line3)

@@ -187,7 +187,8 @@
 			var completeTest1TimerID = setTimeout(function(){
 				
 				if(isRight){
-					initOKPop(1)
+					initOKPop(1);
+					liquidCount++;
 				}else{
 					initOKPop(2)
 				}
@@ -195,7 +196,7 @@
 				if(completeTest1TimerID > 0){
 					clearTimeout(completeTest1TimerID);
 				}
-			}, 1000);
+			}, 2000);
 		}
 
 		private function initOKPop(frame):void{
@@ -205,7 +206,13 @@
 				okPop.visible = false;
 				testPop.visible = false;
 				gotoAndStop(1)
-				updateOutsideGarden(true);
+				if(period == 3){
+					//结束
+					dispatchEvent(new MyEvent(MyEvent.GARDEN_OVER));
+				}else{
+					//下一个时期
+					updateOutsideGarden(true);
+				}
 			})
 		}
 
@@ -239,12 +246,38 @@
 		}
 
 		private function initTest2(){
-			testPop.optionA.addEventListener(MouseEvent.CLICK, function(e: Event){
-				
-			})
-		}
-		private function initTest3(){
+			tfHover(testPop.optionA)
+			tfHover(testPop.optionB)
+			tfHover(testPop.optionC)
 
+			testPop.optionA.addEventListener(MouseEvent.CLICK, answerWrong)
+			testPop.optionB.addEventListener(MouseEvent.CLICK, answerWrong)
+			testPop.optionC.addEventListener(MouseEvent.CLICK, answerRight)
+			
+			initStarBtn(2) //收藏按钮
+		}
+
+		private function initTest3(){
+			tfHover(testPop.optionA)
+			tfHover(testPop.optionB)
+			tfHover(testPop.optionC)
+
+			testPop.optionA.addEventListener(MouseEvent.CLICK, answerWrong)
+			testPop.optionB.addEventListener(MouseEvent.CLICK, answerRight)
+			testPop.optionC.addEventListener(MouseEvent.CLICK, answerWrong)
+			
+			initStarBtn(3) //收藏按钮
+		}
+
+		private function answerRight(e: Event):void{
+			//!音效
+			initOKPop(1);
+			liquidCount++;
+		}
+
+		private function answerWrong(e: Event):void{
+			//!音效
+			initOKPop(2);
 		}
 
 		private function floText(poemID: int, visible: Boolean){
@@ -255,7 +288,6 @@
 			var intoTimerid = setTimeout(function(){   
 				gotoAndStop(5); //四朵花界面
 				initBtn();
-				learnBG.gotoAndStop(poem+(period-1)*3); //背景
 				if(intoTimerid > 0){
 					clearTimeout(intoTimerid);
 				}
@@ -285,9 +317,16 @@
 			
 			trace('frame', frame)
 			gotoAndStop(currentFrame+1)
+						
+			learnBG.gotoAndStop(poem+(period-1)*3); //背景
+
 			learnMC.gotoAndStop(frame)
 			learnMC.setVisited(tab)
 			learnMC.tabPlay(tab)
+			
+			if(tab == 0){
+				learnMC.initLine();
+			}
 
 			//初始化花朵
 			flower.gotoAndStop( (poemFlower[period][poem-1] - 1) * 5 + 1)
@@ -328,8 +367,6 @@
 					})
 				}
 				move();
-			}else{
-				
 			}
 		}
 		

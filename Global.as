@@ -33,6 +33,9 @@ package  {
 
         // 题目收藏情况
         public static var starTest = [false, false, false];
+
+        //养护液数量
+        public static var liquidCount = 0;
         
 		public function Global() {
 			// constructor code

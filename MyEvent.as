@@ -5,6 +5,9 @@ package  {
     	//自定义事件，通知Main start场景完成
         public static const START_OVER:String = "startOver";
 
+		//自定义事件，通知Main garden场景完成
+        public static const GARDEN_OVER:String = "gardenOver";
+
 		//进入时期
 		public static const INTO_PERIOD:String = "intoPeriod";
 
