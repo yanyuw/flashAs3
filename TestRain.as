@@ -27,9 +27,6 @@ package {
             speedY = Math.random() * 3 + 2;;
             this.x = randomX;
             this.y = randomY;
-            var dis = Math.sqrt((dx- x) * (dx - x) + (dy - y) * (dy - y));
-            _cos = Math.abs(dx - x) / dis;
-            _sin = Math.abs(dy - y) / dis;
 
             // trace("cos, sin", _cos, _sin )
 
@@ -48,7 +45,8 @@ package {
 
                 moveToPos();
                 dx += count * d; 
-                trace("count , dx", count, dx);
+                // trace("count , dx", count, dx);
+                
                 count++;
                 if(count  == 3){
                     dispatchEvent(new MyEvent(MyEvent.TEST1_OK));
@@ -106,6 +104,11 @@ package {
 
 
         private function moveRepeat(e: Event):void { 
+            
+            var dis = Math.sqrt((dx- x) * (dx - x) + (dy - y) * (dy - y));
+            _cos = Math.abs(dx - x) / dis;
+            _sin = Math.abs(dy - y) / dis;
+
             if( Math.abs(x-dx) <= 5 && Math.abs(y-dy) <= 5) {
                 removeEventListener(Event.ENTER_FRAME, moveRepeat);
                 removeEventListener(MouseEvent.CLICK, onClick)

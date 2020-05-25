@@ -75,6 +75,10 @@
 			if(period != 1 && poem != 3){
 				trace("initline4", period, poem)
 				tfHover(line4)
+				line4.addEventListener(MouseEvent.CLICK, function(e:Event){
+					gotoAndStop(currentFrame+7);
+					initArrow();
+				})
 			}
 			line1.addEventListener(MouseEvent.CLICK, function(e:Event){
 				gotoAndStop(currentFrame+4);
@@ -88,10 +92,7 @@
 				gotoAndStop(currentFrame+6);
 				initArrow();
 			})
-			line4.addEventListener(MouseEvent.CLICK, function(e:Event){
-				gotoAndStop(currentFrame+7);
-				initArrow();
-			})
+
 
 		}
 

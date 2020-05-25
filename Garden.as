@@ -8,6 +8,7 @@
 	import flash.events.TimerEvent;
 	import flash.text.TextFormat;
 	// import flash.text.TextFieldType;
+	import flash.display.MovieClip;
 
 	
 	public class Garden extends Global {
@@ -90,6 +91,15 @@
 			if(poemID < 4){
 				initPoemBtn(this["poem"+period+'_'+(poemID)], poemID)
 			}else{
+				var liqTimerid = setTimeout(function(){   
+					liquidCount++;
+					liqMC.liqCount.text = liquidCount.toString();
+					liq.visible = true;
+					liq.gotoAndPlay(1);
+					if(liqTimerid > 0){
+						clearTimeout(liqTimerid);
+					}
+				}, 1600);
 				//进入测试
 				initTestBtn()
 			}
@@ -161,6 +171,8 @@
 
 				txt.setTextFormat(format);		 	 //设置格式
 
+				tfHover(txt)
+
 				txt.addEventListener(MyEvent.TEST1_OK, function(e: MyEvent){
 					trace("timer end")
 					myTimer.stop();
@@ -178,9 +190,10 @@
 			}); //运行结束后调用
 
         	myTimer.start();
+			testPop.test1Timer.gotoAndPlay(1);
 
 			//收藏按钮
-			initStarBtn(1)		
+			testPop.star.initStarBtn(0)		
 		}
 
 		private function completeTest1(isRight: Boolean){
@@ -189,14 +202,17 @@
 				if(isRight){
 					initOKPop(1);
 					liquidCount++;
+					periodTestResult[0] = true;
 				}else{
 					initOKPop(2)
+					periodTestResult[0] = false;
 				}
+				initTestReturn()
 				
 				if(completeTest1TimerID > 0){
 					clearTimeout(completeTest1TimerID);
 				}
-			}, 2000);
+			}, 3000);
 		}
 
 		private function initOKPop(frame):void{
@@ -204,6 +220,13 @@
 			okPop.visible = true;
 			okPop.okBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
 				okPop.visible = false;
+			})
+		}
+
+		private function initTestReturn(){
+			hoverGlow(testPop.returnBtn)
+			testPop.returnBtn.visible = true;
+			testPop.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
 				testPop.visible = false;
 				gotoAndStop(1)
 				if(period == 3){
@@ -231,30 +254,23 @@
 			return array;
 		}
 
-		private function initStarBtn(TestID: int):void{
-			if(starTest[TestID] == true){
-				testPop.star.gotoAndStop(2);
-			}else{
-				testPop.star.gotoAndStop(1);
-			}
-			testPop.star.addEventListener(MouseEvent.CLICK, function(e: Event){
-				
-				testPop.star.gotoAndStop( testPop.star.currentFrame == 1 ? 2 : 1 )
-				testPop.star[TestID] = ! testPop.star[TestID];
-			})
-			
-		}
-
 		private function initTest2(){
 			tfHover(testPop.optionA)
 			tfHover(testPop.optionB)
 			tfHover(testPop.optionC)
 
-			testPop.optionA.addEventListener(MouseEvent.CLICK, answerWrong)
-			testPop.optionB.addEventListener(MouseEvent.CLICK, answerWrong)
-			testPop.optionC.addEventListener(MouseEvent.CLICK, answerRight)
+			testPop.optionA.addEventListener(MouseEvent.CLICK, function(e: Event){
+				answerWrong(1);
+			})
+			testPop.optionB.addEventListener(MouseEvent.CLICK, function(e: Event){
+				answerWrong(1);
+			})
+			testPop.optionC.addEventListener(MouseEvent.CLICK, function(e: Event){
+				answerRight(1);
+			})
 			
-			initStarBtn(2) //收藏按钮
+			initTestReturn()
+			testPop.star.initStarBtn(1)		//收藏按钮
 		}
 
 		private function initTest3(){
@@ -262,22 +278,32 @@
 			tfHover(testPop.optionB)
 			tfHover(testPop.optionC)
 
-			testPop.optionA.addEventListener(MouseEvent.CLICK, answerWrong)
-			testPop.optionB.addEventListener(MouseEvent.CLICK, answerRight)
-			testPop.optionC.addEventListener(MouseEvent.CLICK, answerWrong)
+			testPop.optionA.addEventListener(MouseEvent.CLICK, function(e: Event){
+				answerWrong(2);
+			})
+			testPop.optionB.addEventListener(MouseEvent.CLICK, function(e: Event){
+				answerRight(2);
+			})
+			testPop.optionC.addEventListener(MouseEvent.CLICK, function(e: Event){
+				answerWrong(2);
+			})
+
+			initTestReturn()
 			
-			initStarBtn(3) //收藏按钮
+			testPop.star.initStarBtn(2)		//收藏按钮
 		}
 
-		private function answerRight(e: Event):void{
+		private function answerRight(testID):void{
 			//!音效
 			initOKPop(1);
 			liquidCount++;
+			periodTestResult[testID] = true;
 		}
 
-		private function answerWrong(e: Event):void{
+		private function answerWrong(testID):void{
 			//!音效
 			initOKPop(2);
+			periodTestResult[testID] = false;
 		}
 
 		private function floText(poemID: int, visible: Boolean){
@@ -378,20 +404,27 @@
 				flower.getFlower.gotoAndStop(poemFlower[period][poem-1])
 				flower.gotoAndPlay(1);
 				poem += 1;
-				trace(poem)
+				// trace(poem)
 				completeLearn = false;
-				var nextTimerID = setTimeout(function(){
-					basket.play()
-					if(nextTimerID > 0){
-						clearTimeout(nextTimerID);
-					}
-				}, 1600);
+				if(poem == 4){
+					var nextTimer1ID = setTimeout(function(){
+						basket.play()
+						if(nextTimer1ID > 0){
+							clearTimeout(nextTimer1ID);
+						}
+					}, 3200);
+				}else{
+					var nextTimer2ID = setTimeout(function(){
+						basket.play()
+						if(nextTimer2ID > 0){
+							clearTimeout(nextTimer2ID);
+						}
+					}, 1600);
+				}
+	
 			}
 			nextElement(poem);
 			tv.tv.gotoAndStop(period);
-			if(next){
-
-			}
 
 		}
 		
