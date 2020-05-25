@@ -90,6 +90,15 @@
 			if(poemID < 4){
 				initPoemBtn(this["poem"+period+'_'+(poemID)], poemID)
 			}else{
+				var liqTimerid = setTimeout(function(){   
+					liquidCount++;
+					liqMC.liqCount.text = liquidCount.toString();
+					liq.visible = true;
+					liq.gotoAndPlay(1);
+					if(liqTimerid > 0){
+						clearTimeout(liqTimerid);
+					}
+				}, 1600);
 				//进入测试
 				initTestBtn()
 			}
@@ -161,6 +170,8 @@
 
 				txt.setTextFormat(format);		 	 //设置格式
 
+				tfHover(txt)
+
 				txt.addEventListener(MyEvent.TEST1_OK, function(e: MyEvent){
 					trace("timer end")
 					myTimer.stop();
@@ -178,6 +189,7 @@
 			}); //运行结束后调用
 
         	myTimer.start();
+			testPop.test1Timer.gotoAndPlay(1);
 
 			//收藏按钮
 			initStarBtn(1)		
@@ -192,11 +204,12 @@
 				}else{
 					initOKPop(2)
 				}
+				initTestReturn()
 				
 				if(completeTest1TimerID > 0){
 					clearTimeout(completeTest1TimerID);
 				}
-			}, 2000);
+			}, 3000);
 		}
 
 		private function initOKPop(frame):void{
@@ -204,6 +217,22 @@
 			okPop.visible = true;
 			okPop.okBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
 				okPop.visible = false;
+				// testPop.visible = false;
+				// gotoAndStop(1)
+				// if(period == 3){
+				// 	//结束
+				// 	dispatchEvent(new MyEvent(MyEvent.GARDEN_OVER));
+				// }else{
+				// 	//下一个时期
+				// 	updateOutsideGarden(true);
+				// }
+			})
+		}
+
+		private function initTestReturn(){
+			hoverGlow(testPop.returnBtn)
+			testPop.returnBtn.visible = true;
+			testPop.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
 				testPop.visible = false;
 				gotoAndStop(1)
 				if(period == 3){
@@ -254,6 +283,7 @@
 			testPop.optionB.addEventListener(MouseEvent.CLICK, answerWrong)
 			testPop.optionC.addEventListener(MouseEvent.CLICK, answerRight)
 			
+			initTestReturn()
 			initStarBtn(2) //收藏按钮
 		}
 
@@ -265,6 +295,9 @@
 			testPop.optionA.addEventListener(MouseEvent.CLICK, answerWrong)
 			testPop.optionB.addEventListener(MouseEvent.CLICK, answerRight)
 			testPop.optionC.addEventListener(MouseEvent.CLICK, answerWrong)
+
+			
+			initTestReturn()
 			
 			initStarBtn(3) //收藏按钮
 		}
@@ -378,20 +411,27 @@
 				flower.getFlower.gotoAndStop(poemFlower[period][poem-1])
 				flower.gotoAndPlay(1);
 				poem += 1;
-				trace(poem)
+				// trace(poem)
 				completeLearn = false;
-				var nextTimerID = setTimeout(function(){
-					basket.play()
-					if(nextTimerID > 0){
-						clearTimeout(nextTimerID);
-					}
-				}, 1600);
+				if(poem == 4){
+					var nextTimer1ID = setTimeout(function(){
+						basket.play()
+						if(nextTimer1ID > 0){
+							clearTimeout(nextTimer1ID);
+						}
+					}, 3200);
+				}else{
+					var nextTimer2ID = setTimeout(function(){
+						basket.play()
+						if(nextTimer2ID > 0){
+							clearTimeout(nextTimer2ID);
+						}
+					}, 1600);
+				}
+	
 			}
 			nextElement(poem);
 			tv.tv.gotoAndStop(period);
-			if(next){
-
-			}
 
 		}
 		

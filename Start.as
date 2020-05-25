@@ -21,10 +21,10 @@
             
 
             //跳过Start
-            addEventListener(MouseEvent.CLICK, function(e:Event) {
-                //下一场景
-                dispatchEvent(new MyEvent(MyEvent.START_OVER));
-            })
+            // addEventListener(MouseEvent.CLICK, function(e:Event) {
+            //     //下一场景
+            //     dispatchEvent(new MyEvent(MyEvent.START_OVER));
+            // })
         }
 
         private function initTitleBtn():void {

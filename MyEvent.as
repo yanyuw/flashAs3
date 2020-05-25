@@ -21,6 +21,11 @@ package  {
 		public static const TEST1_OK = "test1OK"
 		// test1 未完成结束
 		public static const TEST1_OVER = "test1Over"
+
+		
+		public static const ROOM_TEST2_OVER = "test2Over"
+		public static const ROOM_TEST3_OK = "test3OK"
+		public static const ROOM_TEST3_NEXT = "test3OK"
 		
         //构造函数
 		public function MyEvent(type:String) {

@@ -36,6 +36,13 @@ package  {
 
         //养护液数量
         public static var liquidCount = 0;
+
+        //roomtest2
+        public static var test2Result = false;
+
+        //roomtest3
+        public static var nowVideo = 1;
+        public static var test3Result = false;
         
 		public function Global() {
 			// constructor code
