@@ -257,7 +257,7 @@
 			resultMC.liqCount.text = liquidCount;
 			var newTestArr = periodTestResult.concat([test1Result, test2Result, test3Result])
 			var resultCount = newTestArr.map()
-			resultMC.ansResult.text = 
+			// resultMC.ansResult.text = 
 		}
 
 		private function initBottle():void{
@@ -268,6 +268,28 @@
 				roomMC.getBottle.addEventListener(Event.ENTER_FRAME,overHandler)
 				
 			})
+
+			//标题
+			roomMC.flowerShelf.addEventListener(MouseEvent.MOUSE_MOVE, function(e: Event) {
+				roomMC.flowerText.visible = true;
+            })
+            roomMC.flowerShelf.addEventListener(MouseEvent.MOUSE_OUT, function() {
+                roomMC.flowerText.visible=false;
+            })
+
+			roomMC.ball.addEventListener(MouseEvent.MOUSE_MOVE, function(e: Event) {
+				roomMC.ballText.visible = true;
+            })
+            roomMC.ball.addEventListener(MouseEvent.MOUSE_OUT, function() {
+                roomMC.ballText.visible=false;
+            })
+			
+			roomMC.paint.addEventListener(MouseEvent.MOUSE_MOVE, function(e: Event) {
+				roomMC.paintText.visible = true;
+            })
+            roomMC.paint.addEventListener(MouseEvent.MOUSE_OUT, function() {
+                roomMC.paintText.visible=false;
+            })
 		}
 
 		private function overHandler(e:Event):void{
