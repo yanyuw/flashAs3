@@ -4,6 +4,7 @@
 	
 	import flash.events.MouseEvent;
     import flash.events.Event;
+	import fl.containers.ScrollPane; 
 	
 	public class Report extends Global {
 		public var aSp = new ScrollPane();
@@ -12,17 +13,20 @@
 		var tempAnswer 
 
 		public function Report() {
-			initTestBtn(btn1, 0, periodTestResult[0]);
-			initTestBtn(btn2, 1, periodTestResult[1]);
-			initTestBtn(btn3, 2, periodTestResult[2]);
-			initTestBtn(btn4, 3, test1Result);
-			initTestBtn(btn5, 4, test2Result);
-			initTestBtn(btn6, 5, test3Result);
+			trace(periodTestResult.concat([test1Result, test2Result, test3Result]))
+			trace(hasAddition)
+
+			initTestBtn(this.btn1, 0, periodTestResult[0]);
+			initTestBtn(this.btn2, 1, periodTestResult[1]);
+			initTestBtn(this.btn3, 2, periodTestResult[2]);
+			initTestBtn(this.btn4, 3, test1Result);
+			initTestBtn(this.btn5, 4, test2Result);
+			initTestBtn(this.btn6, 5, test3Result);
 			if(hasAddition){
 				initAdditionTestBtn();
 			}
 
-			okBtn.addEventListener(MouseEvent.CLICK, function(e:Event){
+			this.okBtn.addEventListener(MouseEvent.CLICK, function(e:Event){
 				dispatchEvent(new MyEvent(MyEvent.REPORT_OVER));
 			})
 			
@@ -36,7 +40,7 @@
 		
 		private function initTestBtn(button:MovieClip, testID, testResult):void{
 			hoverGlow(button)
-			if(test3Result){
+			if(testResult){
 				button.gotoAndStop(1)
 			}else{
 				button.gotoAndStop(2)
@@ -48,11 +52,12 @@
 		}
 
 		private function initAdditionTestBtn():void{
+			btn7.visible = true;
 			hoverGlow(btn7)
 			if(additionTestResult){
-				button.gotoAndStop(1)
+				btn7.gotoAndStop(1)
 			}else{
-				button.gotoAndStop(2)
+				btn7.gotoAndStop(2)
 			}
 			btn7.addEventListener(MouseEvent.CLICK, function(e:Event){
 				if(additionTestNum == 3){

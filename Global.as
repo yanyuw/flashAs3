@@ -27,7 +27,7 @@ package  {
 		// 哪一阶段哪一首诗
 		public static var period:int = 1;
 		public static var poem:int = 1;
-
+        
         // 已经回答
         public static var alreadyAsk = [false, false, false, false, false, false, false, false, false];
 
@@ -42,6 +42,7 @@ package  {
     
         //题目
         public static var periodTestResult = [false, false, false];
+        // public static var periodTestResult = [true, false, true];//debug 
 
         //roomtest1
         public static var test1Result = false;

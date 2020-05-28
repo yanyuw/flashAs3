@@ -33,8 +33,16 @@
             hoverGlow(startBtn);
 
 			//事件监听
-			// !!!! 课件指南按钮
-			// guideBtn.addEventListener()
+			// 课件指南按钮
+			guideBtn.addEventListener(MouseEvent.CLICK, function(e:Event){
+                guidePopUp.guideVideo.play()
+                guidePopUp.visible = true;
+                hoverGlow(guidePopUp.closeBtn)
+                guidePopUp.closeBtn.addEventListener(MouseEvent.CLICK, function(e:Event){
+                    guidePopUp.visible = false;
+                    guidePopUp.guideVideo.stop()
+                })
+            })
             startBtn.addEventListener(MouseEvent.CLICK, function(e:Event) {
                 gotoAndStop(2)
                 initModeBtn();
@@ -46,6 +54,11 @@
             plotModeBtn.addEventListener(MouseEvent.CLICK, function(e:Event) {
                 gotoAndStop(3)
                 initTextArea()
+            })
+            hoverGlow(normalModeBtn, new GlowFilter(0xcccc00, 0.75,20,20))
+            plotModeBtn.addEventListener(MouseEvent.CLICK, function(e:Event) {
+                dispatchEvent(new MyEvent(MyEvent.NORMAL_MODE));
+                
             })
         }
 

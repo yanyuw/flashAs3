@@ -77,6 +77,7 @@
 				}, 1000);
 				closeTV.addEventListener(MouseEvent.CLICK, function(e: Event){
 					tv.gotoAndStop(1);
+					tv.video.stop()
 					closeTV.visible = false;
 					removeGlow(tv)
 					nextElement(1)
@@ -93,7 +94,7 @@
 			}else{
 				var liqTimerid = setTimeout(function(){   
 					liquidCount++;
-					liqMC.liqCount.text = liquidCount.toString();
+					dispatchEvent(new MyEvent(MyEvent.UPDATE_LIQUID))
 					liq.visible = true;
 					liq.gotoAndPlay(1);
 					if(liqTimerid > 0){
@@ -202,6 +203,7 @@
 				if(isRight){
 					initOKPop(1);
 					liquidCount++;
+					dispatchEvent(new MyEvent(MyEvent.UPDATE_LIQUID))
 					periodTestResult[0] = true;
 				}else{
 					initOKPop(2)
@@ -297,6 +299,7 @@
 			//!音效
 			initOKPop(1);
 			liquidCount++;
+			dispatchEvent(new MyEvent(MyEvent.UPDATE_LIQUID))
 			periodTestResult[testID] = true;
 		}
 

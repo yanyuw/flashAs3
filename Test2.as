@@ -169,6 +169,7 @@
 
 
 		private function checkAnswer(e: MouseEvent):void{
+			submitPop.visible = false;
 			var answer1 = selectFlower.slice(0, 3).sort()
 			var answer2 = selectFlower.slice(3, 6).sort()
 			var answer3 = selectFlower.slice(6, 9).sort()
@@ -180,31 +181,44 @@
 			test2Answer[2].sort();
 			trace(test2Answer[0], test2Answer[1], test2Answer[2]);
 
-			if(test2Answer[0].toString() == answer1.toString() && test2Answer[1].toString() == answer2.toString() && test2Answer[2].toString() == answer3.toString()){
-				//答对
-				submitPop.gotoAndStop(2);
-				test2Result = true;
+			//播放动画
+			flowerPlay(1, test2Answer[0].toString() == answer1.toString())
+			flowerPlay(2, test2Answer[1].toString() == answer2.toString())
+			flowerPlay(3, test2Answer[2].toString() == answer3.toString())
+			
+			var test2TimerID = setTimeout(function(){
 				
-				submitPop.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
-					submitPop.visible = false;
-					returnBtn.visible = true;
-					hoverGlow(returnBtn);
-					returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
-						dispatchEvent(new MyEvent(MyEvent.ROOM_TEST2_OVER));
+				submitPop.visible = true;
+				if(test2Answer[0].toString() == answer1.toString() && test2Answer[1].toString() == answer2.toString() && test2Answer[2].toString() == answer3.toString()){
+					//答对
+					submitPop.gotoAndStop(2);
+					test2Result = true;
+					
+					submitPop.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+						submitPop.visible = false;
+						returnBtn.visible = true;
+						hoverGlow(returnBtn);
+						returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+							dispatchEvent(new MyEvent(MyEvent.ROOM_TEST2_OVER));
+						})
 					})
-				})
-			}else{
-				//答错				
-				submitPop.gotoAndStop(3);
-				submitPop.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
-					submitPop.visible = false;
-					returnBtn.visible = true;
-					hoverGlow(returnBtn);
-					returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
-						dispatchEvent(new MyEvent(MyEvent.ROOM_TEST2_OVER));
+				}else{
+					//答错				
+					submitPop.gotoAndStop(3);
+					submitPop.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+						submitPop.visible = false;
+						returnBtn.visible = true;
+						hoverGlow(returnBtn);
+						returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+							dispatchEvent(new MyEvent(MyEvent.ROOM_TEST2_OVER));
+						})
 					})
-				})
-			}
+				}
+				
+                if(test2TimerID > 0){
+                    clearTimeout(test2TimerID);
+                }
+			}, 1000);
 		}
 
 		
@@ -216,6 +230,12 @@
 				}
 			}
 			return true;
+		}
+
+		private function flowerPlay(flowerID:int, ifPlay:Boolean):void{
+			if(ifPlay){
+				this['flower'+flowerID].play();
+			}
 		}
 	}
 	

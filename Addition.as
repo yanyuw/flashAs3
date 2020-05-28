@@ -11,7 +11,7 @@
 		
 		public function Addition() {
 			additionTestNum = getAdditionTestNum();
-			star.initStarBtn(6);
+			this.star.initStarBtn(6);
 
 			if(additionTestNum == 3){
 				subAdditionTestNum = Math.floor(Math.random()*3);
@@ -34,27 +34,32 @@
 				tempAnswer = additionAnswer[additionTestNum]
 			}
 
-			optionA.text = tempOption[0];
-			optionB.text = tempOption[1];
-			optionC.text = tempOption[2];
+			tfHover(this.optionA)
+			tfHover(this.optionB)
+			tfHover(this.optionC)
 
-			optionA.addEventListener(MouseEvent.CLICK, function(e: Event){
+			this.optionA.text = tempOption[0];
+			this.optionB.text = tempOption[1];
+			this.optionC.text = tempOption[2];
+
+			this.optionA.addEventListener(MouseEvent.CLICK, function(e: Event){
 				check('A')
 			})
 
-			optionA.addEventListener(MouseEvent.CLICK, function(e: Event){
+			this.optionB.addEventListener(MouseEvent.CLICK, function(e: Event){
 				
 				check('B')
 			})
 
-			optionA.addEventListener(MouseEvent.CLICK, function(e: Event){
+			this.optionC.addEventListener(MouseEvent.CLICK, function(e: Event){
 				
 				check('C')
 			})
 
 			if(additionTestNum == 0){
-				optionD.text = tempOption[3];
-				optionA.addEventListener(MouseEvent.CLICK, function(e: Event){
+				tfHover(optionD)
+				this.optionD.text = tempOption[3];
+				this.optionD.addEventListener(MouseEvent.CLICK, function(e: Event){
 					check('D')
 				})
 			}
@@ -62,12 +67,14 @@
 		}
 
 		private function check(option):void{
+			infoPop.visible = true;
 			if(option == tempAnswer){
 				additionTestResult = true;
+				infoPop.gotoAndStop(1)
 			}else{
 				additionTestResult = false;
+				infoPop.gotoAndStop(2)
 			}
-			infoPop.visible = true;
 
 			hoverGlow(infoPop.returnBtn)
 			infoPop.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
@@ -81,7 +88,7 @@
 
 		}
 
-		private function getAdditionTestNum(num): int{
+		private function getAdditionTestNum(): int{
 			var newTestArr = periodTestResult.concat([test1Result, test2Result, test3Result])
 			var newNum = Math.floor(Math.random()*6)
 			while(true){

@@ -28,6 +28,7 @@
 			this.stop();
 			trace("main",this.startMC.currentFrame)
 			this.startMC.addEventListener(MyEvent.START_OVER, gotoGarden)
+			this.startMC.addEventListener(MyEvent.NORMAL_MODE, intoNormalMode)
 			init();
 		}
 
@@ -37,11 +38,14 @@
 			hoverGlow(basketBtn);
 			hoverGlow(noteBtn);
 			
+            // addEventListener(MouseEvent.CLICK, debugFun)
+		}
 
-			//debug: 允客之求
-			// gotoAndStop("允客之求")
-			// initTest1();
-            addEventListener(MouseEvent.CLICK, debugFun)
+		private function intoNormalMode():void{
+			gotoAndStop("普通模式")
+			returnBtn.addEventListener(MouseEvent.CLICK,function(e: Event){
+				gotoAndStop(1);
+			})
 		}
 
 		private function debugFun(e: Event):void{
@@ -55,13 +59,20 @@
 		private function gotoGarden(e: MyEvent):void {
 			gotoAndStop(currentFrame+1)
 
-			//按钮
+			//规则按钮
 			ruleBtn.addEventListener(MouseEvent.CLICK, ruleBtnOnClick)
-			
+			//花篮按钮
+			basketBtn.addEventListener(MouseEvent.CLICK,basketBtnOnClick)
+			//笔记按钮
+			noteBtn.addEventListener(MouseEvent.CLICK, noteBtnOnClick)
+
 			//过渡
 			gardenMcTransition();
 			
 			gardenMC.addEventListener(MyEvent.GARDEN_OVER, gotoNext)
+			gardenMC.addEventListener(MyEvent.UPDATE_LIQUID, function(e: MyEvent){
+				liqMC.updateLiqCount();
+			})
 		}
 
 		private function gotoNext(e: MyEvent):void {
@@ -71,7 +82,7 @@
 			initTextArea();
 
 			//养护液
-			liqMC.liqCount.text = liquidCount;
+			liqMC.updateLiqCount()
 		}
 
 		private function initTextArea():void {
@@ -92,10 +103,15 @@
 		}
 
 		private function initRoomBtn():void{
+			//debug
+			// liquidCount++;
+			// liqMC.updateLiqCount()
 			if(liquidCount <= 0){
+				trace('in mc:',liqMC.liqCount.text, 'variable:', liquidCount);
 				roomMC.gotoAndStop(3);
 				initTipPop(1);
 			}else{
+				trace('in mc:',liqMC.liqCount.text, 'variable:', liquidCount);
 				if(roomTestDone[0] && roomTestDone[1] && roomTestDone[2]){
 					roomMC.gotoAndStop(3);
 					initTipPop(2);
@@ -149,7 +165,12 @@
 
 		private function initTipPop(frame):void{
 			roomMC.tipPop.gotoAndStop(frame);
+
+			hoverGlow(roomMC.tipPop.doBtn)
+			hoverGlow(roomMC.tipPop.dontBtn)
+
 			roomMC.tipPop.doBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+				trace('做加试')
 				hasAddition = true;
 				gotoAndStop("加试")
 				additionMC.addEventListener(MyEvent.ADDITION_OVER, function(e: MyEvent){
@@ -157,7 +178,9 @@
 					reportMC.addEventListener(MyEvent.REPORT_OVER, intoEnd)
 				})
 			})
+
 			roomMC.tipPop.dontBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+				trace('不做加试')
 				hasAddition = false;
 				if(liquidCount > 0){
 					//进入好结局
@@ -170,7 +193,7 @@
 					gotoAndStop("答题报告")
 					reportMC.addEventListener(MyEvent.REPORT_OVER, intoEnd)
 				}
-			})			
+			})
 		}
 		
 		private function intoEnd(e: MyEvent){
@@ -217,23 +240,23 @@
 			hoverGlow(ending.okBtn)
 			ending.okBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
 				var count = 0;
-				if(ending.input1.text='桂'){
+				if(ending.input1.text=='桂'){
 					count++;
-					Feedback1.text = '√'
+					ending.Feedback1.text = '√'
 				}else{
-					Feedback1.text = '×'
+					ending.Feedback1.text = '×'
 				}
-				if(ending.input2.text='相思'){
+				if(ending.input2.text==='相思'){
 					count++;
-					Feedback2.text = '√'
+					ending.Feedback2.text = '√'
 				}else{
-					Feedback2.text = '×'
+					ending.Feedback2.text = '×'
 				}
-				if(ending.input3.text='梅'){
+				if(ending.input3.text =='梅'){
 					count++;
-					Feedback3.text = '√'
+					ending.Feedback3.text = '√'
 				}else{
-					Feedback3.text = '×'
+					ending.Feedback3.text = '×'
 				}
 				ending.answer.visible = true;
 				if(count == 3){
@@ -256,8 +279,12 @@
 			//resultMC 等级品定报告
 			resultMC.liqCount.text = liquidCount;
 			var newTestArr = periodTestResult.concat([test1Result, test2Result, test3Result])
-			var resultCount = newTestArr.map()
+			// var resultCount = newTestArr.map()
 			// resultMC.ansResult.text = 
+			resultMC.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+				//回到封面
+				gotoAndStop(1);
+			})
 		}
 
 		private function initBottle():void{
@@ -325,7 +352,7 @@
 					
 					if(test2Result == false){
 						liquidCount--;
-						liqMC.liqCount.text = liquidCount;
+						liqMC.updateLiqCount()
 					}
 					roomMC.gotoAndStop(2);
 					initRoomBtn()
@@ -342,7 +369,7 @@
 					gotoAndStop(4);
 					if(test3Result == false){
 						liquidCount--;
-						liqMC.liqCount.text = liquidCount;
+						liqMC.updateLiqCount()
 					}
 					roomMC.gotoAndStop(2);
 					initRoomBtn()
@@ -396,7 +423,7 @@
 			hoverGlow(Test1MC.sellBtn)
 			Test1MC.sellBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
 				
-				trace(selectFlower)
+				trace('选择花朵', selectFlower)
 				if(selectFlower[0] == test1Answer[curCustomer][0] && selectFlower[1] == test1Answer[curCustomer][1]){
 					Test1MC.customerText.text = '谢谢！这就是我想要的花朵！'
 					test1Count++;
@@ -417,7 +444,8 @@
 							Test1MC.infoPop.gotoAndStop(2);
 						}
 
-						Test1MC.infoPop.addEventListener(MouseEvent.CLICK, function(e: MouseEvent){
+						hoverGlow(Test1MC.infoPop.returnBtn)
+						Test1MC.infoPop.returnBtn.addEventListener(MouseEvent.CLICK, function(e: MouseEvent){
 							Test1MC.infoPop.visible = false;
 							Test1MC.returnBtn.visible = true;
 							hoverGlow(Test1MC.returnBtn);
@@ -426,7 +454,7 @@
 								gotoAndStop(4);
 								if(test1Result == false){
 									liquidCount--;
-									liqMC.liqCount.text = liquidCount;
+									liqMC.updateLiqCount()
 								}
 								roomMC.gotoAndStop(2);
 								initRoomBtn()
@@ -513,11 +541,43 @@
 		}
 
 		private function ruleBtnOnClick(e: Event):void {
-			rulesPopUp.visible = !rulesPopUp.visible;
-			btnMask.visible = !btnMask.visible;
+			if(rulesPopUp.visible == false){
+				openPopUp(1);
+				btnMask.visible = true;
+			}else{
+				btnMask.visible = false;
+				openPopUp(0);
+			}
 		}
 
+		private function basketBtnOnClick(e: Event):void {
+			if(basketPopUp.visible == false){
+				openPopUp(2);
+				basketPopUp.updateContent();
+				btnMask.visible = true;
+			}else{
+				btnMask.visible = false;
+				openPopUp(0);
+			}
 
+		}
+
+		private function noteBtnOnClick(e: Event):void {
+			if(notePopUp.visible == false){
+				openPopUp(3);
+				notePopUp.updateNote();
+				btnMask.visible = true;
+			}else{
+				btnMask.visible = false;
+				openPopUp(0);
+			}
+		}
+
+		private function openPopUp(id){
+			rulesPopUp.visible = (id == 1);
+			basketPopUp.visible = (id == 2);
+			notePopUp.visible = (id == 3);
+		}
 
 	}
 	

@@ -5,6 +5,8 @@ package  {
     	//自定义事件，通知Main start场景完成
         public static const START_OVER:String = "startOver";
 
+		public static const NORMAL_MODE = "normalMode"
+
 		//自定义事件，通知Main garden场景完成
         public static const GARDEN_OVER:String = "gardenOver";
 
@@ -13,6 +15,9 @@ package  {
 
 		//更新花朵
 		public static const UPDATE_FLOWER:String = "updateFlower";
+
+		//更新养护液
+		public static const UPDATE_LIQUID = "updateLiquid";
 
 		// //更新对话
 		// public static const UPDATE_TALK:String = "updateTalk";
