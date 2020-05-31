@@ -5,6 +5,7 @@
 	import flash.events.MouseEvent;
     import flash.events.Event;
 	import fl.containers.ScrollPane; 
+	import fl.controls.UIScrollBar;
 	
 	public class Report extends Global {
 		public var aSp = new ScrollPane();
@@ -27,6 +28,7 @@
 			}
 
 			this.okBtn.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
 				dispatchEvent(new MyEvent(MyEvent.REPORT_OVER));
 			})
 			
@@ -46,6 +48,7 @@
 				button.gotoAndStop(2)
 			}
 			button.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
 				answerTextArea.htmlText = testContent[testID]
 				aSp.update();
 			})
@@ -60,6 +63,7 @@
 				btn7.gotoAndStop(2)
 			}
 			btn7.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
 				if(additionTestNum == 3){
 					questionText = additionQ[additionTestNum][subAdditionTestNum];
 					tempOption = additionO[additionTestNum][subAdditionTestNum]
@@ -75,7 +79,7 @@
 					tempOption = additionO[additionTestNum]
 					tempAnswer = additionAnswer[additionTestNum]
 				}
-				var text = questionText + '\n' + tempOption.join('\n') + '【答案】\n' + tempAnswer
+				var text = questionText + '\n' + tempOption.join('\n') + '\n【答案】' + tempAnswer
 				answerTextArea.htmlText = text;
 				aSp.update();
 			})

@@ -11,9 +11,11 @@
 		public function NormalMode() {
 			// constructor code
 			leftArrow.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				gotoAndStop(currentFrame - 1);
 			})
 			rightArrow.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				gotoAndStop(currentFrame + 1);
 			})
 		}

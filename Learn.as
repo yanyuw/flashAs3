@@ -15,6 +15,8 @@
 		public var appreSp = new ScrollPane();
 		private var progress = 0;
 		private var visited = [];
+		private var videoArr = ['鹧鸪天', '点绛唇', '如梦令', '减字木兰花', '醉花阴', '一剪梅', '清平乐', '声声慢', '摊破浣溪沙']
+
 
 		public function Learn() {
 			super()
@@ -38,6 +40,8 @@
 			hoverGlow(appreTab, btnGlowObj)
 
 			learnTab.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
+				stopVideo()
 				gotoAndStop("原文"+period+"_"+poem);
 				trace("原文"+period+"_"+poem)
 				initLearnBtn();
@@ -47,25 +51,55 @@
 				removeTextA()
 			})
 			explainTab.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
+				stopVideo()
 				gotoAndStop("解诗");
 				tabPlay(1);
 				firstTab(1);
+				initExplainVideo()
 				removeTextA()
 			})
 			talkTab.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
+				stopVideo()
 				gotoAndStop("说诗");
 				tabPlay(2);
 				firstTab(2);
 				removeTextA()
 			})
 			appreTab.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
+				stopVideo()
 				gotoAndStop("赏诗");
 				tabPlay(3);
 				firstTab(3);
+				initAppreVideo();
 				removeTextA()
 				
 			})
 			initLearnBtn();
+		}
+
+		public function stopVideo():void{
+			if(currentLabel == "解诗"){
+				explainVideo.stop()
+			}else if(currentLabel == "赏诗"){
+				if(appreVideo.playing){
+					appreVideo.stop()
+				}
+			}
+		}
+
+		public function initExplainVideo():void{
+			var path = '讲解视频/讲解视频-'+ videoArr[poem+(period-1)*3 - 1] +'.mp4'
+			explainVideo.source = path;
+
+		}
+
+		public function initAppreVideo():void{
+			var path = '欣赏视频/欣赏视频-'+ videoArr[poem+(period-1)*3 - 1] +'.mp4'
+			trace(path)
+			appreVideo.source = path;
 		}
 
 		public function initLine():void{
@@ -76,19 +110,23 @@
 				trace("initline4", period, poem)
 				tfHover(line4)
 				line4.addEventListener(MouseEvent.CLICK, function(e:Event){
+					clickSound.play()
 					gotoAndStop(currentFrame+7);
 					initArrow();
 				})
 			}
 			line1.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
 				gotoAndStop(currentFrame+4);
 				initArrow();
 			})
 			line2.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
 				gotoAndStop(currentFrame+5);
 				initArrow();
 			})
 			line3.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
 				gotoAndStop(currentFrame+6);
 				initArrow();
 			})
@@ -98,9 +136,11 @@
 
 		private function initArrow():void{
 			leftArrow.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
 				gotoAndStop(currentFrame - 1);
 			})
 			rightArrow.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
 				gotoAndStop(currentFrame + 1);
 			})
 
@@ -116,15 +156,19 @@
 			hoverGlow(appreBtn, btnGlowObj)
 			
 			originBtn.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
 				learnBtn(0)
 			})
 			transBtn.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
 				learnBtn(1)
 			})
 			tipBtn.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
 				learnBtn(2)
 			})
 			appreBtn..addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
 				learnBtn(3)
 			})
 			

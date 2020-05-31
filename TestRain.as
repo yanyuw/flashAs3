@@ -3,6 +3,9 @@ package {
 	import flash.events.MouseEvent;
 	import flash.events.Event;
     import flash.utils.*;
+    import flash.utils.*;
+    import flash.media.Sound;
+    import flash.net.URLRequest;
 
     public class TestRain extends TextFieldEx {
         
@@ -27,6 +30,7 @@ package {
             speedY = Math.random() * 3 + 2;;
             this.x = randomX;
             this.y = randomY;
+            this.height = 30;
 
             // trace("cos, sin", _cos, _sin )
 
@@ -37,12 +41,13 @@ package {
         }
 
         private function onClick(e: Event):void{
+            clickSound.play()
 
             if(text == '海棠' || text == '少女时期' || text == '叹春自怜'){
                 // isCorrect = true;
                 
                 //!音效
-
+                rightSound.play()
                 moveToPos();
                 dx += count * d; 
                 // trace("count , dx", count, dx);
@@ -55,7 +60,7 @@ package {
             }else{
                 // isCorrect = false;
                 
-                //!音效
+                wrongSound.play()
                 //变换颜色
                 removeEventListener (Event.ENTER_FRAME, enterFrameHandler);
                 

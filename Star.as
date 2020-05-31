@@ -19,6 +19,7 @@
 				gotoAndStop(1);
 			}
 			addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				
 				gotoAndStop( currentFrame == 1 ? 2 : 1 )
 				starTest[TestID] = ! starTest[TestID];

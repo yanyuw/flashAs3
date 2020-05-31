@@ -32,6 +32,7 @@ package  {
 		public static const ROOM_TEST3_OK = "test3OK"
 		public static const ROOM_TEST3_NEXT = "test3OK"
 
+		public static const ADDITION_OK = 'additionOK'
 		public static const ADDITION_OVER = 'additionOver'
 		public static const REPORT_OVER = 'reportOver'
 

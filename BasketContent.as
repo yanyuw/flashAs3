@@ -19,6 +19,7 @@
 				if(i < (period - 1)*3 + poem){
 					trace('目前进度',(period - 1)*3 + poem, 'idx', i);
 					this['flower'+i].addEventListener(MouseEvent.CLICK, function(e:Event){
+						clickSound.play()
 						initFlower(e.target, i);
 					})
 				}else{
@@ -29,9 +30,11 @@
 
 		private function initArrow():void{
 			leftArrow.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				gotoAndStop(currentFrame - 1);
 			})
 			rightArrow.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				gotoAndStop(currentFrame + 1);
 			})
 		}
@@ -40,6 +43,7 @@
 			trace(btn.name, id);
 			hoverGlow(btn);
 			btn.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				gotoAndStop(id+1);
 				initArrow();
 			})

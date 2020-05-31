@@ -47,9 +47,10 @@
 			gotoAndStop(currentFrame+periodID)
 			period=periodID
 			initTVBtn();
+			playBGM('mainBGM');
 
 			//debug跳过用：直接进入测试
-			initTestBtn()
+			// initTestBtn()
 
 			trace("当前时期",periodID)
 		}
@@ -58,14 +59,16 @@
 			
 			tv.tv.gotoAndStop(period)
 			addGlow(tv)
-			tv.addEventListener(MouseEvent.MOUSE_MOVE, function(e: Event) {
+			tv.addEventListener(MouseEvent.MOUSE_OVER, function(e: Event) {
 				tvText.visible = true;
+                // hoverSound.play()
             })
             tv.addEventListener(MouseEvent.MOUSE_OUT, function() {
                 tvText.visible=false;
             })
 
 			function tvPlay(e: Event){
+				clickSound.play()
 				tv.play();
 				var removeTimerID = setTimeout(function(){
 					hoverGlow(closeTV)
@@ -76,8 +79,9 @@
 					}
 				}, 1000);
 				closeTV.addEventListener(MouseEvent.CLICK, function(e: Event){
-					tv.gotoAndStop(1);
+					clickSound.play()
 					tv.video.stop()
+					tv.gotoAndStop(1);
 					closeTV.visible = false;
 					removeGlow(tv)
 					nextElement(1)
@@ -93,8 +97,7 @@
 				initPoemBtn(this["poem"+period+'_'+(poemID)], poemID)
 			}else{
 				var liqTimerid = setTimeout(function(){   
-					liquidCount++;
-					dispatchEvent(new MyEvent(MyEvent.UPDATE_LIQUID))
+					changeLiquidCount();
 					liq.visible = true;
 					liq.gotoAndPlay(1);
 					if(liqTimerid > 0){
@@ -110,12 +113,14 @@
 		private function initPoemBtn(button, poemID:int):void{
 			addGlow(button)
 			button.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				button.play();
 				poem = poemID;
 				intoPoem();
 			})
-			button.addEventListener(MouseEvent.MOUSE_MOVE, function(e: Event) {
+			button.addEventListener(MouseEvent.MOUSE_OVER, function(e: Event) {
 				floText(poemID, true)
+                // hoverSound.play()
             })
 			button.addEventListener(MouseEvent.MOUSE_OUT, function() {
                 floText(poemID, false)
@@ -126,6 +131,8 @@
 		private function initTestBtn():void{
 			addGlow(testBtn);
 			testBtn.addEventListener(MouseEvent.CLICK, function(e: Event) {
+				clickSound.play()
+				playBGM('PTestBGM');
 				testPop.visible = true;
 				if(period == 1){
 					initTest1()
@@ -138,7 +145,7 @@
             })
 
 			//文字hover
-			testBtn.addEventListener(MouseEvent.MOUSE_MOVE, function(e: Event) {
+			testBtn.addEventListener(MouseEvent.MOUSE_OVER, function(e: Event) {
 				testText.visible = true;
             })
 			testBtn.addEventListener(MouseEvent.MOUSE_OUT, function(e: Event) {
@@ -150,7 +157,7 @@
 		private function initTest1(){
 			var textArr = ["海棠", "少女时期", "叹春自怜", "梅花", "菊花", "桂花", "荷花", "少妇时期", "晚年时期", "幸福甜蜜", "卓尔不群", "浓郁情思", "爱恋羞涩", "相思之苦", "悲惨凄沧", "深忧国衰" ,"平静淡然"];
 			// var txtRain = [];
-			var myTimer:Timer= new Timer(800, 17); 
+			var myTimer:Timer= new Timer(1000, 17); 
 			
 			//设置字体格式
 			var format:TextFormat = new TextFormat();
@@ -201,11 +208,12 @@
 			var completeTest1TimerID = setTimeout(function(){
 				
 				if(isRight){
+					rightSound.play()
 					initOKPop(1);
-					liquidCount++;
-					dispatchEvent(new MyEvent(MyEvent.UPDATE_LIQUID))
+					changeLiquidCount();
 					periodTestResult[0] = true;
 				}else{
+					wrongSound.play()
 					initOKPop(2)
 					periodTestResult[0] = false;
 				}
@@ -217,10 +225,16 @@
 			}, 3000);
 		}
 
+		private function changeLiquidCount(){
+			liquidCount++;
+			liqMC.updateLiqCount()
+		}
+
 		private function initOKPop(frame):void{
 			okPop.gotoAndStop(frame);
 			okPop.visible = true;
 			okPop.okBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				okPop.visible = false;
 			})
 		}
@@ -229,6 +243,7 @@
 			hoverGlow(testPop.returnBtn)
 			testPop.returnBtn.visible = true;
 			testPop.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				testPop.visible = false;
 				gotoAndStop(1)
 				if(period == 3){
@@ -262,12 +277,16 @@
 			tfHover(testPop.optionC)
 
 			testPop.optionA.addEventListener(MouseEvent.CLICK, function(e: Event){
+				
+				clickSound.play()
 				answerWrong(1);
 			})
 			testPop.optionB.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				answerWrong(1);
 			})
 			testPop.optionC.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				answerRight(1);
 			})
 			
@@ -281,12 +300,15 @@
 			tfHover(testPop.optionC)
 
 			testPop.optionA.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				answerWrong(2);
 			})
 			testPop.optionB.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				answerRight(2);
 			})
 			testPop.optionC.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				answerWrong(2);
 			})
 
@@ -296,15 +318,14 @@
 		}
 
 		private function answerRight(testID):void{
-			//!音效
+			rightSound.play()
 			initOKPop(1);
-			liquidCount++;
-			dispatchEvent(new MyEvent(MyEvent.UPDATE_LIQUID))
+			changeLiquidCount();
 			periodTestResult[testID] = true;
 		}
 
 		private function answerWrong(testID):void{
-			//!音效
+			wrongSound.play()
 			initOKPop(2);
 			periodTestResult[testID] = false;
 		}
@@ -329,15 +350,19 @@
 			hoverGlow(talkBtn)
 			hoverGlow(appreBtn)
 			learnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				gotoLearn("原文"+period+"_"+poem, 0)
 			})
 			explainBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				gotoLearn("解诗", 1)
 			})
 			talkBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				gotoLearn("说诗", 2)
 			})
 			appreBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				gotoLearn("赏诗", 3)
 			})
 		}
@@ -355,6 +380,10 @@
 			
 			if(tab == 0){
 				learnMC.initLine();
+			}else if(tab == 1){
+				learnMC.initExplainVideo();
+			}else if(tab == 3){
+				learnMC.initAppreVideo();
 			}
 
 			//初始化花朵
@@ -368,6 +397,8 @@
 			//返回按钮
 			hoverGlow(returnBtn)
 			returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
+				learnMC.stopVideo();
 				gotoAndStop(1+period)
 				updateInsideGarden(completeLearn);
 			})
@@ -400,6 +431,7 @@
 		}
 		
 		public function updateInsideGarden(next: Boolean = false){
+			liqMC.updateLiqCount();
 			basket.gotoAndStop(poem*24)
 			trace("basket curr", basket.currentFrame);
 			if(next){

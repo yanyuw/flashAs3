@@ -145,6 +145,7 @@
 
 				submitPop.submitBtn.addEventListener(MouseEvent.CLICK, checkAnswer)
 				submitPop.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+					clickSound.play()
 					submitPop.visible = false;
 				})
 			}
@@ -169,6 +170,7 @@
 
 
 		private function checkAnswer(e: MouseEvent):void{
+			clickSound.play()
 			submitPop.visible = false;
 			var answer1 = selectFlower.slice(0, 3).sort()
 			var answer2 = selectFlower.slice(3, 6).sort()
@@ -191,25 +193,31 @@
 				submitPop.visible = true;
 				if(test2Answer[0].toString() == answer1.toString() && test2Answer[1].toString() == answer2.toString() && test2Answer[2].toString() == answer3.toString()){
 					//答对
+					rightSound.play()
 					submitPop.gotoAndStop(2);
 					test2Result = true;
 					
 					submitPop.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+						clickSound.play()
 						submitPop.visible = false;
 						returnBtn.visible = true;
 						hoverGlow(returnBtn);
 						returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+							clickSound.play()
 							dispatchEvent(new MyEvent(MyEvent.ROOM_TEST2_OVER));
 						})
 					})
 				}else{
-					//答错				
+					//答错	
+					wrongSound.play()			
 					submitPop.gotoAndStop(3);
 					submitPop.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+						clickSound.play()
 						submitPop.visible = false;
 						returnBtn.visible = true;
 						hoverGlow(returnBtn);
 						returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+							clickSound.play()
 							dispatchEvent(new MyEvent(MyEvent.ROOM_TEST2_OVER));
 						})
 					})

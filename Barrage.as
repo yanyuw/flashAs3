@@ -43,6 +43,8 @@ package {
 
         private function onClick(e: Event):void{
             
+            clickSound.play()
+
             if(nowVideo == 1){
                 if(text == '暗淡轻黄体性柔，情疏迹远只香留。' || text == '少女时期' || text == '何须浅碧深红色，自是花中第一流。' || text == '梅定妒，菊应羞，画栏开处冠中秋。' || text == '骚人可煞无情思，何事当年不见收。' ){
                     rightSelected()
@@ -71,8 +73,7 @@ package {
         }
 
         private function rightSelected():void{
-            //!音效
-
+            rightSound.play()
             moveToPos();
             dy += count2 * d; 
             trace("count2 , dx", count2, dx);
@@ -85,7 +86,7 @@ package {
         }
 
         private function wrongSelected():void{
-            //!音效
+            wrongSound.play()
             //变换颜色
             removeEventListener (Event.ENTER_FRAME, enterFrameHandler);
             

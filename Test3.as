@@ -86,29 +86,35 @@
 				gotoAndStop(5);
 				if(test3Count == 2){
 					//答对
+					rightSound.play()
 					infoPop.gotoAndStop(1);
 					test3Result = true;
 					
 					hoverGlow(infoPop.returnBtn)
 					infoPop.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+						clickSound.play()
 						infoPop.visible = false;
 						returnBtn.visible = true;
 						hoverGlow(returnBtn);
 						returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+							clickSound.play()
 							dispatchEvent(new MyEvent(MyEvent.ROOM_TEST3_NEXT));
 						})
 					})
 				}else{
 					//答错
+					wrongSound.play()
 					infoPop.gotoAndStop(2);
 					test3Result = false;
 					
 					hoverGlow(infoPop.returnBtn)
 					infoPop.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+						clickSound.play()
 						infoPop.visible = false;
 						returnBtn.visible = true;
 						hoverGlow(returnBtn);
 						returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+							clickSound.play()
 							dispatchEvent(new MyEvent(MyEvent.ROOM_TEST3_NEXT));
 						})
 					})
@@ -124,6 +130,7 @@
 			gotoAndStop("清平乐");
 			hoverGlow(closeBtn)
 			closeBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				gotoAndStop(currentFrame + 1);
 				nowVideo++;
 				initContent()

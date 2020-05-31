@@ -19,12 +19,14 @@
 			hoverGlow(this.bookmark2);
 
 			this.bookmark1.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
 				gotoAndStop(1);
 				bookmark1.gotoAndStop(2);
 				bookmark2.gotoAndStop(1);
 				updatePage1();
 			})
 			this.bookmark2.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
 				gotoAndStop(2);
 				bookmark1.gotoAndStop(1);
 				bookmark2.gotoAndStop(2);
@@ -47,6 +49,7 @@
 					btn.testID = testID
 					hoverGlow(btn);
 					btn.addEventListener(MouseEvent.CLICK, function(e: Event){
+						clickSound.play()
 						answerTextArea.htmlText = testContent[btn.testID]
 					})
 					starBtnArr.push(btn);

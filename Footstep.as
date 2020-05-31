@@ -11,6 +11,7 @@ package  {
 
         private function clickFootstep(e: Event):void{
             var periodID=name.substr(name.length-1,1)  
+            clickSound.play()
             // trace("时期",periodID)
             dispatchEvent(new MyEvent(MyEvent.INTO_PERIOD));
             

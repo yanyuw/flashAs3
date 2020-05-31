@@ -35,6 +35,7 @@
 			//事件监听
 			// 课件指南按钮
 			guideBtn.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
                 guidePopUp.guideVideo.play()
                 guidePopUp.visible = true;
                 hoverGlow(guidePopUp.closeBtn)
@@ -44,6 +45,7 @@
                 })
             })
             startBtn.addEventListener(MouseEvent.CLICK, function(e:Event) {
+				clickSound.play()
                 gotoAndStop(2)
                 initModeBtn();
             })
@@ -52,11 +54,15 @@
         private function initModeBtn():void {
             hoverGlow(plotModeBtn, new GlowFilter(0xcccc00, 0.75,20,20));
             plotModeBtn.addEventListener(MouseEvent.CLICK, function(e:Event) {
+				clickSound.play()
                 gotoAndStop(3)
                 initTextArea()
+                playBGM('zBGM')
             })
+
             hoverGlow(normalModeBtn, new GlowFilter(0xcccc00, 0.75,20,20))
-            plotModeBtn.addEventListener(MouseEvent.CLICK, function(e:Event) {
+            normalModeBtn.addEventListener(MouseEvent.CLICK, function(e:Event) {
+				clickSound.play()
                 dispatchEvent(new MyEvent(MyEvent.NORMAL_MODE));
                 
             })
@@ -70,6 +76,7 @@
 
         //控制文本框
         private function nextText(e:Event):void {
+            clickSound.play()
             if (currentFrame == 6) {
                 gotoAndStop(currentFrame + 1)
                 // trace("当前帧",currentFrame);
@@ -77,13 +84,16 @@
                 //设置秘籍点击事件
                 hoverGlow(book)
                 book.addEventListener(MouseEvent.CLICK, function(e:Event) {
+                    clickSound.play()
                     // trace("当前帧",currentFrame);
                     gotoAndStop(currentFrame + 1);
 
                     //设置秘籍内容点击事件
                     hoverGlow(bookContent)
                     bookContent.addEventListener(MouseEvent.CLICK, function(e:Event) {
+                        clickSound.play()
                         // trace("当前帧",currentFrame);
+                        stopBGM();
                         wTr.play();
                         wTrTimerid = setTimeout(trDelay, 500);
                     })
@@ -94,6 +104,7 @@
                 //设置介绍点击事件
                 introPopUp.buttonMode = true
                 introPopUp.addEventListener(MouseEvent.CLICK, function(e:Event) {
+                    clickSound.play()
                     trace("当前帧", currentFrame);
                     gotoAndStop(currentFrame + 1);
                 })
@@ -103,6 +114,7 @@
                 //设置规则点击事件
                 hoverGlow(rulesPopUp)
                 rulesPopUp.addEventListener(MouseEvent.CLICK, function(e:Event) {
+                    clickSound.play()
                     trace("当前帧", currentFrame);
                     //下一场景
                     dispatchEvent(new MyEvent(MyEvent.START_OVER));
@@ -118,6 +130,8 @@
             gotoAndStop(currentFrame + 1)
             var tAreaTimerid:uint = setTimeout(function(){
                 gotoAndStop(currentFrame + 1)
+                
+                playBGM('lBGM')
                 clearTimeout(tAreaTimerid);
             }, 1000);
                         

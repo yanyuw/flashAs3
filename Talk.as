@@ -39,6 +39,7 @@
 		private function initInput():void {
 			// input.stop()
 			input.inputBase.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
 				if(inputStatus == false){
 					input.gotoAndStop(1+poem+(period-1)*3)
 					input.inputBase.gotoAndStop(2);
@@ -75,6 +76,7 @@
 			trace("questionID",questionID, id)
 			question.textColor = 0x000000;   	
 			question.addEventListener(MouseEvent.CLICK, function(e:Event){
+				clickSound.play()
 				questionText = question.text;
 				getAnswer(questionID);
 				if(active == true){

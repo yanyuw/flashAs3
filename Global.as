@@ -10,6 +10,10 @@ package  {
     import flash.display.StageScaleMode;
 	import flash.text.TextField; 
     import flash.ui.Mouse;
+	import flash.media.SoundChannel;
+    import flash.media.Sound;
+    import flash.net.URLRequest;   
+    import flash.media.SoundTransform;
 
 	//存储公用变量及函数
 	public class Global extends MovieClip {
@@ -66,6 +70,24 @@ package  {
         //问题
         public static var finalResult = false;
         
+        public static var liquidGrade = "";
+
+        public static var finalQCount = 0;
+
+        //音乐音效
+        //mainBGM:封面BGM  进入花园三大板块BGM  提炼室及提炼室前两道题的BGM~1
+        //LBGM:最开始李清照和主人公对话  进入每一人生阶段的BGM  以及中间李清照“做的不错！...”  以及最后好坏结局对话至最后~1
+        //zBgm:最开始主人公自白~1
+        //PTestBGM 三个阶段小测试~1
+        //按键声音~1
+		public static var bgmChannel:SoundChannel = new SoundChannel();
+        public static var nowBGM:Sound;
+        public static var bgmPos;
+        public static var clickSound = new Sound(new URLRequest("music/clickSound.mp3"))
+        public static var hoverSound = new Sound(new URLRequest("music/hoverSound.mp3"))
+        public static var wrongSound = new Sound(new URLRequest("music/wrongSound.mp3"))
+        public static var rightSound = new Sound(new URLRequest("music/rightSound.mp3"))
+
 		public function Global() {
 			// constructor code
             stage.scaleMode = StageScaleMode.EXACT_FIT 
@@ -81,11 +103,15 @@ package  {
             var newFilters:Array = button.filters;
             newFilters.push(glowObj)
             
-            button.addEventListener(MouseEvent.MOUSE_MOVE, function() {
+            button.addEventListener(MouseEvent.MOUSE_OVER, function() {
                 button.filters= newFilters;
+                // hoverSound.play()
+                
+                Mouse.cursor="button";       //当鼠标移到动态文本上时出现手形
             })
             button.addEventListener(MouseEvent.MOUSE_OUT, function() {
                 button.filters=filters;
+                Mouse.cursor="arrow";        //当鼠标离开动态文本时取消手形,恢复为箭头
             })
 		}
 
@@ -107,16 +133,55 @@ package  {
 		}
 
 
-        public function tfHover(tf: TextField):void{
+        public function tfHover(tf: TextField, addSound: Boolean = true):void{
             tf.addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
             tf.addEventListener(MouseEvent.MOUSE_OUT, onMouseOut); 
             function onMouseOver(e:MouseEvent) { 
                 Mouse.cursor="button";       //当鼠标移到动态文本上时出现手形
+                if(addSound){
+                    // hoverSound.play()
+                }
             }
             function onMouseOut(e:MouseEvent) {        
                 Mouse.cursor="arrow";        //当鼠标离开动态文本时取消手形,恢复为箭头
             }
         }
+
+        //音乐
+        public function resumeBGM(){
+            bgmChannel = nowBGM.play(bgmPos);
+        }
+        
+        public function stopBGM(){
+            bgmPos = bgmChannel.position
+			bgmChannel.stop()
+		}
+
+		public function playBGM(bgmName){
+            // if(bgmChannel != null){
+                bgmChannel.stop()
+                bgmPos = 0;
+            // }
+            var bgm = new Sound();
+
+            bgm.load(new URLRequest("music/" + bgmName + ".mp3")); 
+			bgmChannel = bgm.play()
+            setBgmVolume(0.3)
+            nowBGM = bgm;
+            bgmChannel.addEventListener(Event.SOUND_COMPLETE,onBGMComplete); 
+		}
+
+        private function onBGMComplete(eve:Event):void{   
+            bgmChannel=nowBGM.play();   
+            bgmChannel.addEventListener(Event.SOUND_COMPLETE,onBGMComplete);
+        }   
+
+        private function setBgmVolume(num):void{
+            var vlCont:SoundTransform = new SoundTransform();
+            vlCont.volume = num;  //声音的大小，0-1
+            bgmChannel.soundTransform = vlCont;
+        }
+
         //测试内容
         var testContent = [
             'I文字雨\n【题目】诗句：知否，知否？应是绿肥红瘦。对应的花朵、时期及意象是什么？\n【答案】海棠、少女时期、对春光易逝的感叹',

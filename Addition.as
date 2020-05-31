@@ -10,8 +10,82 @@
 		private var tempAnswer;
 		
 		public function Addition() {
+			
+		}
+		public function normalModeAddition(additionTestNum){
+			// if(additionTestNum > 5){
+				closeBtn.visible = true;
+				hoverGlow(closeBtn);
+				closeBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+					clickSound.play()
+					visible = false;
+				})
+				star.visible = false;
+
+				if(additionTestNum == 3){
+					subAdditionTestNum = Math.floor(Math.random()*3);
+					questionText.text = additionQ[additionTestNum][subAdditionTestNum];
+
+					tempOption = additionO[additionTestNum][subAdditionTestNum]
+					tempAnswer = additionAnswer[additionTestNum][subAdditionTestNum]
+				}else if (additionTestNum == 5){
+					subAdditionTestNum = Math.floor(Math.random()*2);
+
+					questionText.text = additionQ[additionTestNum][subAdditionTestNum];
+
+					tempOption = additionO[additionTestNum][subAdditionTestNum]
+					tempAnswer = additionAnswer[additionTestNum][subAdditionTestNum]
+				}else{
+					
+					questionText.text = additionQ[additionTestNum];
+					
+					tempOption = additionO[additionTestNum]
+					tempAnswer = additionAnswer[additionTestNum]
+				}
+
+				tfHover(optionA, false)
+				tfHover(optionB, false)
+				tfHover(optionC, false)
+
+				optionA.text = tempOption[0];
+				optionB.text = tempOption[1];
+				optionC.text = tempOption[2];
+
+				optionA.addEventListener(MouseEvent.CLICK, function(e: Event){
+					normalCheck('A', additionTestNum)
+					clickSound.play()
+				})
+
+				optionB.addEventListener(MouseEvent.CLICK, function(e: Event){
+					
+					normalCheck('B', additionTestNum)
+					clickSound.play()
+				})
+
+				optionC.addEventListener(MouseEvent.CLICK, function(e: Event){
+					
+					normalCheck('C', additionTestNum)
+					clickSound.play()
+				})
+
+				if(additionTestNum == 0){
+					tfHover(optionD)
+					optionD.text = tempOption[3];
+					optionD.addEventListener(MouseEvent.CLICK, function(e: Event){
+						normalCheck('D', additionTestNum)
+						clickSound.play()
+					})
+				}else{
+					optionD.visible = false;
+				}
+			// }
+		
+		}
+		
+		public function plotModeAddition(){
+			
 			additionTestNum = getAdditionTestNum();
-			this.star.initStarBtn(6);
+			star.initStarBtn(6);
 
 			if(additionTestNum == 3){
 				subAdditionTestNum = Math.floor(Math.random()*3);
@@ -34,55 +108,90 @@
 				tempAnswer = additionAnswer[additionTestNum]
 			}
 
-			tfHover(this.optionA)
-			tfHover(this.optionB)
-			tfHover(this.optionC)
+			tfHover(optionA)
+			tfHover(optionB)
+			tfHover(optionC)
 
-			this.optionA.text = tempOption[0];
-			this.optionB.text = tempOption[1];
-			this.optionC.text = tempOption[2];
+			optionA.text = tempOption[0];
+			optionB.text = tempOption[1];
+			optionC.text = tempOption[2];
 
-			this.optionA.addEventListener(MouseEvent.CLICK, function(e: Event){
+			optionA.addEventListener(MouseEvent.CLICK, function(e: Event){
 				check('A')
+				clickSound.play()
 			})
 
-			this.optionB.addEventListener(MouseEvent.CLICK, function(e: Event){
+			optionB.addEventListener(MouseEvent.CLICK, function(e: Event){
 				
 				check('B')
+				clickSound.play()
 			})
 
-			this.optionC.addEventListener(MouseEvent.CLICK, function(e: Event){
+			optionC.addEventListener(MouseEvent.CLICK, function(e: Event){
 				
 				check('C')
+				clickSound.play()
 			})
 
 			if(additionTestNum == 0){
 				tfHover(optionD)
-				this.optionD.text = tempOption[3];
-				this.optionD.addEventListener(MouseEvent.CLICK, function(e: Event){
+				optionD.text = tempOption[3];
+				optionD.addEventListener(MouseEvent.CLICK, function(e: Event){
 					check('D')
+					clickSound.play()
 				})
 			}
 			
 		}
 
-		private function check(option):void{
+		private function normalCheck(option, testNum):void{
 			infoPop.visible = true;
 			if(option == tempAnswer){
-				additionTestResult = true;
+				rightSound.play()
 				infoPop.gotoAndStop(1)
 			}else{
-				additionTestResult = false;
-				infoPop.gotoAndStop(2)
+				wrongSound.play()
+				infoPop.gotoAndStop(4)
 			}
 
 			hoverGlow(infoPop.returnBtn)
 			infoPop.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
+				infoPop.visible = false;
+				normalModeAddition(testNum+1)
+			})
+
+		}
+
+		private function check(option):void{
+			infoPop.visible = true;
+			if(option == tempAnswer){
+				rightSound.play()
+				additionTestResult = true;
+				infoPop.gotoAndStop(3)
+				liquidCount++;
+			}else{
+				
+				wrongSound.play()
+				additionTestResult = false;
+				infoPop.gotoAndStop(4)
+			}
+
+			hoverGlow(infoPop.returnBtn)
+			infoPop.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
+				clickSound.play()
 				infoPop.visible = false;
 				returnBtn.visible = true;
 				hoverGlow(returnBtn);
 				returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
-					dispatchEvent(new MyEvent(MyEvent.ADDITION_OVER));
+					clickSound.play()
+					if(additionTestResult == false && liquidCount <= 0){
+						//直接进入结局
+						dispatchEvent(new MyEvent(MyEvent.ADDITION_OVER));
+					}else {
+						//提炼精油
+						dispatchEvent(new MyEvent(MyEvent.ADDITION_OK));
+					}
 				})
 			})
 
