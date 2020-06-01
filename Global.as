@@ -42,6 +42,7 @@ package  {
         //养护液数量
         public static var liquidCount = 0;
 
+        public static var testDone = [false, false, false]
         //提炼室做过题目
         public static var roomTestDone = [false, false, false];
     

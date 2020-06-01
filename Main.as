@@ -287,8 +287,10 @@
 				ending.textArea.buttonMode = true;
 				ending.textArea.addEventListener(MouseEvent.CLICK, function(e: Event){
 					clickSound.play()
-					gotoAndStop(currentFrame + 1)
-					initBlackEnd();
+					ending.gotoAndStop(ending.currentFrame + 1)
+					if(ending.currentFrame == 6){
+						initFinalQ()
+					}
 				});
 			}
 			
@@ -299,7 +301,12 @@
 			hoverGlow(ending.closeBtn)
 			ending.closeBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
 				clickSound.play()
-				ending.gotoAndStop(ending.currentFrame + 1)
+				if(ending.currentFrame == 6){
+					gotoAndStop(currentFrame + 1)
+					initBlackEnd();
+				}else{
+					ending.gotoAndStop(ending.currentFrame + 1)
+				}
 			})
 			//输入限制
 			ending.input1.maxChars = 1;

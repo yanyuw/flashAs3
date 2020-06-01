@@ -214,6 +214,7 @@
 		}
 
 		private function completeTest1(isRight: Boolean){
+			testDone[0] = true;
 			var completeTest1TimerID = setTimeout(function(){
 				
 				if(isRight){
@@ -282,12 +283,12 @@
 		}
 
 		private function initTest2(){
+			
 			tfHover(testPop.optionA)
 			tfHover(testPop.optionB)
 			tfHover(testPop.optionC)
 
 			testPop.optionA.addEventListener(MouseEvent.CLICK, function(e: Event){
-				
 				clickSound.play()
 				answerWrong(1);
 			})
@@ -329,8 +330,14 @@
 
 		private function answerRight(testID):void{
 			rightSound.play()
-			initOKPop(1);
-			changeLiquidCount();
+			if(!testDone[testID]){
+				initOKPop(1);
+				changeLiquidCount();
+				testDone[testID] = true;
+			}else{
+				
+				initOKPop(3);
+			}
 			periodTestResult[testID] = true;
 		}
 
@@ -338,6 +345,7 @@
 			wrongSound.play()
 			initOKPop(2);
 			periodTestResult[testID] = false;
+			testDone[testID] = true;
 		}
 
 		private function floText(poemID: int, visible: Boolean){
