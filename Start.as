@@ -20,7 +20,7 @@
             // addEventListener(Event.ENTER_FRAME, EFHandler);
             
 
-            //跳过Start
+            //debug 跳过Start
             // addEventListener(MouseEvent.CLICK, function(e:Event) {
             //     //下一场景
             //     dispatchEvent(new MyEvent(MyEvent.START_OVER));
@@ -52,15 +52,17 @@
         }
 
         private function initModeBtn():void {
-            hoverGlow(plotModeBtn, new GlowFilter(0xcccc00, 0.75,20,20));
+            // hoverGlow(plotModeBtn, new GlowFilter(0xcccc00, 0.75,20,20));
+            hoverGlow(plotModeBtn);
             plotModeBtn.addEventListener(MouseEvent.CLICK, function(e:Event) {
 				clickSound.play()
                 gotoAndStop(3)
                 initTextArea()
-                playBGM('zBGM')
+                playBGM('zBGM', 0.1)
             })
 
-            hoverGlow(normalModeBtn, new GlowFilter(0xcccc00, 0.75,20,20))
+            // hoverGlow(normalModeBtn, new GlowFilter(0xcccc00, 0.75,20,20))
+            hoverGlow(normalModeBtn)
             normalModeBtn.addEventListener(MouseEvent.CLICK, function(e:Event) {
 				clickSound.play()
                 dispatchEvent(new MyEvent(MyEvent.NORMAL_MODE));
@@ -131,7 +133,7 @@
             var tAreaTimerid:uint = setTimeout(function(){
                 gotoAndStop(currentFrame + 1)
                 
-                playBGM('lBGM')
+                playBGM('lBGM', 0.1)
                 clearTimeout(tAreaTimerid);
             }, 1000);
                         

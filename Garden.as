@@ -30,10 +30,18 @@
 			trace("garden重新加载")
 			move();
 
-			//监听点击事件
+			// 监听点击事件
 			footstep1.addEventListener(MyEvent.INTO_PERIOD, function(e: MyEvent){
 				intoPeriod(e, 1)
 			})
+			
+			//debug
+			// period = 3,
+			
+			// move();
+			// footstep3.addEventListener(MyEvent.INTO_PERIOD, function(e: MyEvent){
+			// 	intoPeriod(e, 3)
+			// })
 		}
 
 		//图标移动
@@ -47,8 +55,8 @@
 			gotoAndStop(currentFrame+periodID)
 			period=periodID
 			initTVBtn();
-			playBGM('mainBGM');
-
+			// playBGM('mainBGM');
+			stopBGM()
 			//debug跳过用：直接进入测试
 			// initTestBtn()
 
@@ -132,7 +140,8 @@
 			addGlow(testBtn);
 			testBtn.addEventListener(MouseEvent.CLICK, function(e: Event) {
 				clickSound.play()
-				playBGM('PTestBGM');
+				// playBGM('PTestBGM');
+				stopBGM()
 				testPop.visible = true;
 				if(period == 1){
 					initTest1()
@@ -162,7 +171,7 @@
 			//设置字体格式
 			var format:TextFormat = new TextFormat();
 			format.font = "Microsoft YaHei UI";
-            format.size = 20;
+            format.size = 22;
 
 			var count = 0;
 			shuffle(textArr);//洗牌
@@ -241,6 +250,7 @@
 
 		private function initTestReturn(){
 			hoverGlow(testPop.returnBtn)
+			testPop.hand.visible = true;
 			testPop.returnBtn.visible = true;
 			testPop.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
 				clickSound.play()
@@ -331,7 +341,9 @@
 		}
 
 		private function floText(poemID: int, visible: Boolean){
-			this["floText"+poemID].visible = visible;
+			if(this["floText"+poemID]){
+				this["floText"+poemID].visible = visible;
+			}
 		}
 
 		private function intoPoem():void{
@@ -341,7 +353,7 @@
 				if(intoTimerid > 0){
 					clearTimeout(intoTimerid);
 				}
-			}, 1000);
+			}, 2000);
 		}
 
 		private function initBtn(){

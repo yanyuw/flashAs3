@@ -28,6 +28,7 @@ package  {
         }
 
 
+		public static var musicStatus:Boolean = true;
 		// 哪一阶段哪一首诗
 		public static var period:int = 1;
 		public static var poem:int = 1;
@@ -47,6 +48,7 @@ package  {
         //题目
         public static var periodTestResult = [false, false, false];
         // public static var periodTestResult = [true, false, true];//debug 
+		
 
         //roomtest1
         public static var test1Result = false;
@@ -73,6 +75,8 @@ package  {
         public static var liquidGrade = "";
 
         public static var finalQCount = 0;
+
+        public static var noteText = ""
 
         //音乐音效
         //mainBGM:封面BGM  进入花园三大板块BGM  提炼室及提炼室前两道题的BGM~1
@@ -157,22 +161,28 @@ package  {
 			bgmChannel.stop()
 		}
 
-		public function playBGM(bgmName){
-            // if(bgmChannel != null){
-                bgmChannel.stop()
-                bgmPos = 0;
-            // }
-            var bgm = new Sound();
+		public function playBGM(bgmName, volNum = 0.3){
+            if(musicStatus){
+                // if(bgmChannel != null){
+                    bgmChannel.stop()
+                    bgmPos = 0;
+                // }
+                var bgm = new Sound();
 
-            bgm.load(new URLRequest("music/" + bgmName + ".mp3")); 
-			bgmChannel = bgm.play()
-            setBgmVolume(0.3)
-            nowBGM = bgm;
-            bgmChannel.addEventListener(Event.SOUND_COMPLETE,onBGMComplete); 
+                bgm.load(new URLRequest("music/" + bgmName + ".mp3")); 
+                bgmChannel = bgm.play()
+                setBgmVolume(volNum)
+                nowBGM = bgm;
+                bgmChannel.addEventListener(Event.SOUND_COMPLETE,onBGMComplete); 
+            }else{
+                bgm.load(new URLRequest("music/" + bgmName + ".mp3")); 
+                nowBGM = bgm;
+            }
 		}
 
         private function onBGMComplete(eve:Event):void{   
             bgmChannel=nowBGM.play();   
+            setBgmVolume(0.3)
             bgmChannel.addEventListener(Event.SOUND_COMPLETE,onBGMComplete);
         }   
 

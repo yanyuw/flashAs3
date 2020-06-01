@@ -72,13 +72,13 @@
 		}
 
 		private function debugFun(e: Event):void{
-			// gotoAndStop(4);
-			// initRoom();
-			// liquidCount++;
-			// liqMC.updateLiqCount()
+			gotoAndStop(4);
+			initRoom();
+			liquidCount++;
+			liqMC.updateLiqCount()
 
-			gotoAndStop(3);
-			initTextArea();
+			// gotoAndStop(3);
+			// initTextArea();
 			removeEventListener(MouseEvent.CLICK, debugFun)
 		}
 
@@ -99,6 +99,7 @@
 		}
 
 		private function gotoNext(e: MyEvent):void {
+			gardenMC.removeEventListener(MyEvent.GARDEN_OVER, gotoNext)
 			gotoAndStop(currentFrame+1)
 			//
 			playBGM('LBGM')
@@ -130,19 +131,36 @@
 		}
 
 		private function initRoomBtn():void{
+			liqMC.updateLiqCount();
 			if(liquidCount <= 0){
 				//没有养护液
 				// trace('in mc:',liqMC.liqCount.text, 'variable:', liquidCount);
 				roomMC.gotoAndStop(3);
-				initTipPop(2);
+				if(!hasAddition){
+					initTipPop(2);
+				}else{
+					isGoodEnding = false;
+					gotoAndStop("答题报告")
+					reportMC.addEventListener(MyEvent.REPORT_OVER, intoEnd)
+				}
 			}else{
 				trace('in mc:',liqMC.liqCount.text, 'variable:', liquidCount);
 				if(roomTestDone[0] && roomTestDone[1] && roomTestDone[2]){
 					//养护液没有用完 已经做完所有测试
 					roomMC.gotoAndStop(3);
-					initTipPop(1);
+					if(!hasAddition){
+						initTipPop(1);
+					}else{
+						//做过加试了
+						isGoodEnding = true;
+						gotoAndStop(4);//回到提炼室
+						roomMC.gotoAndStop(4);
+						liqMC.updateLiqCount();
+						initBottle()
+					}
 					
 				}else{
+					
 					if(roomTestDone[0] == false){
 						hoverGlow(roomMC.flowerShelf);
 						roomMC.flowerShelf.addEventListener(MouseEvent.CLICK, function(e: Event){
@@ -209,11 +227,19 @@
 					reportMC.addEventListener(MyEvent.REPORT_OVER, intoEnd)
 				})
 				additionMC.addEventListener(MyEvent.ADDITION_OK, function(e: MyEvent){
-					isGoodEnding = true;
-					gotoAndStop(4);//回到提炼室
-					roomMC.gotoAndStop(4);
-					liqMC.updateLiqCount();
-					initBottle()
+					if(roomTestDone[0] && roomTestDone[1] && roomTestDone[2]){
+						//都做过
+						isGoodEnding = true;
+						gotoAndStop(4);//回到提炼室
+						roomMC.gotoAndStop(4);
+						liqMC.updateLiqCount();
+						initBottle()
+					}else{
+						
+						gotoAndStop(4);//回到提炼室
+						roomMC.gotoAndStop(2);
+						initRoomBtn()
+					}
 					// gotoAndStop("答题报告")
 					// reportMC.addEventListener(MyEvent.REPORT_OVER, intoEnd)
 				})
@@ -330,15 +356,7 @@
 			hoverGlow(resultMC.exitBtn)
 
 			resultMC.liqCount.text = liquidCount;
-			var newTestArr = periodTestResult.concat([test1Result, test2Result, test3Result, additionTestResult])
-			var resultCount = 0;
-			for(var t = 0; t < newTestArr.length; t++){
-				if(newTestArr[t] == true){
-					resultCount++;
-				}
-			}
-			var testCount:String = hasAddition ? '7' : '6';
-			resultMC.ansResult.text = resultCount+ ' / ' + testCount;
+			resultMC.ansResult.text = finalQCount+ ' / 3' 
 			resultMC.returnBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
 				clickSound.play()
 				//回到封面
@@ -356,8 +374,9 @@
 			if(finalQCount == 3){
 				flowerFrame = 3;
 			}else if (finalResult == 2){
-				flowerFrame == 2;
+				flowerFrame = 2;
 			}
+			trace(flowerFrame)
 			resultMC.flower.flowerGrade.gotoAndStop(flowerFrame);
 
 			resultMC.liquid.play()
@@ -403,7 +422,6 @@
 			var tar = e.target;
 			if (tar.currentFrame == 19) {
 				tar.addEventListener(MouseEvent.CLICK, function(e: Event){
-					clickSound.play()
 					tar.play();
 				})
 			}
@@ -650,8 +668,8 @@
 		private function basketBtnOnClick(e: Event):void {
 			clickSound.play()
 			if(basketPopUp.visible == false){
-				openPopUp(2);
 				basketPopUp.updateContent();
+				openPopUp(2);
 				btnMask.visible = true;
 			}else{
 				btnMask.visible = false;

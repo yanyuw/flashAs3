@@ -115,6 +115,7 @@ package {
             _sin = Math.abs(dy - y) / dis;
 
             if( Math.abs(x-dx) <= 5 && Math.abs(y-dy) <= 5) {
+                y = dy;
                 removeEventListener(Event.ENTER_FRAME, moveRepeat);
                 removeEventListener(MouseEvent.CLICK, onClick)
                 textColor = 0x7777ff;

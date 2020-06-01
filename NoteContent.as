@@ -20,6 +20,9 @@
 
 			this.bookmark1.addEventListener(MouseEvent.CLICK, function(e:Event){
 				clickSound.play()
+				if(currentFrame == 2){
+					noteText = noteTextArea.htmlText;
+				}
 				gotoAndStop(1);
 				bookmark1.gotoAndStop(2);
 				bookmark2.gotoAndStop(1);
@@ -37,30 +40,34 @@
 		public function updatePage1(){
 			starCount = 0;
 			starBtnArr = [];
-			
+			trace("starTest", starTest)
 			for(var testID in starTest){
+				trace("id", testID, starTest[testID])
 				if(starTest[testID]){
 					noneText.visible = false;
-					trace(starTest[testID])
-					var btn = new NoteBtn(btnTitle[testID]);
+					// trace(starTest[testID])
+					var btn = new NoteBtn(btnTitle[testID], testID);
 					btn.x = btnPos[starCount][0];
 					btn.y = btnPos[starCount][1];
 					starCount++;
-					btn.testID = testID
-					hoverGlow(btn);
+					// btn.testID = testID
 					btn.addEventListener(MouseEvent.CLICK, function(e: Event){
 						clickSound.play()
 						answerTextArea.htmlText = testContent[btn.testID]
 					})
 					starBtnArr.push(btn);
 					addChild(btn);
+					hoverGlow(btn);
 				}
 			}
 			
 		}
 		
 		public function updatePage2(){
-			
+			for(var i = 0; i < starBtnArr.length; i++){
+				removeChild(starBtnArr[i]);
+			}
+			noteTextArea.htmlText = noteText;
 		}
 
 		public function updateNote(){

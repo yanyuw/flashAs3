@@ -20,7 +20,7 @@ package {
         private var isCorrect = false;
         private var nowVideo;
 
-        public function Barrage(nowVideo, randomNum) {
+        public function Barrage(nowVideo, randomNum, barrageCount) {
             super()
             trace(nowVideo, randomNum)
             this.nowVideo = nowVideo;
@@ -33,6 +33,10 @@ package {
 
 
             if(count2 == 5){
+                count2 = 0;
+            }
+            if(nowVideo == 2 &&barrageCount == 0){
+                
                 count2 = 0;
             }
 

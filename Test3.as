@@ -16,6 +16,7 @@
 		public var test3Answer = []
 		private var format:TextFormat;
 		private var randomNum = 0;
+		var txtArr = [];
 		
 		public function Test3() {
 			//设置字体格式
@@ -33,7 +34,6 @@
 			
 			var text1Arr = ["病起萧萧两鬓华，卧看残月上窗纱。", "暗淡轻黄体性柔，情疏迹远只香留。", "枕上诗书闲处好，门前风景雨来佳。", "昨夜雨疏风骤，浓睡不消残酒。","何须浅碧深红色，自是花中第一流。","泪染轻匀，犹带彤霞晓露痕。", "尽梅花无好意，赢得满衣清泪。", "梅定妒，菊应羞，画栏开处冠中秋。", "骚人可煞无情思，何事当年不见收。", "少妇时期", "晚年时期", "少女时期"];
 
-			// var txtRain = [];
 			var myTimer:Timer= new Timer(2600, 12); 
 			var count = 0;
 			// trace(textArr)
@@ -41,7 +41,7 @@
             myTimer.addEventListener(TimerEvent.TIMER, function(event:TimerEvent){
 				randomNum = getRandomNum(randomNum);
 				trace(randomNum)
-				var txt = new Barrage(1, randomNum);
+				var txt = new Barrage(1, randomNum, count);
 				txt.text = text1Arr[count++];
 
 				txt.textColor = 0x333333;            //文字颜色
@@ -62,7 +62,7 @@
 
 				addChild(txt);
 				
-				// txtRain.push(txt);
+				txtArr.push(txt);
 			}); 
 
 			myTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function(event:TimerEvent){
@@ -127,6 +127,9 @@
 		}
 
 		private function nextContent(event:VideoEvent):void{
+			for(var i = 0; i < txtArr.length; i++){
+				removeChild(txtArr[i]);
+			}
 			gotoAndStop("清平乐");
 			hoverGlow(closeBtn)
 			closeBtn.addEventListener(MouseEvent.CLICK, function(e: Event){
@@ -151,7 +154,7 @@
 
             myTimer2.addEventListener(TimerEvent.TIMER, function(event:TimerEvent){
 				randomNum = getRandomNum(randomNum);
-				var txt = new Barrage(2, randomNum);
+				var txt = new Barrage(2, randomNum, count);
 				txt.text = text2Arr[count++];
 
 				txt.textColor = 0x333333;            //文字颜色

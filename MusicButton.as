@@ -5,7 +5,6 @@
 	import flash.events.Event;
 
 	public class MusicButton extends Global {
-		public var musicStatus:Boolean = true;
 
 		public function MusicButton() {
 			trace("重新加载", musicStatus);
